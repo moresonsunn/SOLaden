@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Ladestation</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/water.css@2/out/water.css">
+    <style>
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <h1>Ihr Verbrauch bei der Ladestation von der TBS1</h1>
+    <p>
+        <class="table">
+            <menu>
+                <li>
+                    <button
+                    type="button" id="dataButton1" name="Gesamter Verbrauch">
+                        Gesamter Verbrauch
+                    </button>
+                    <button
+                    type="button" id="dataButton2" name="Tagesverbrauch">
+                        Tagesverbrauch
+                    </button>
+                    <button
+                        type="button" id="dataButton3" name="Wochenverbrauch">
+                            Wochenverbrauch
+                    </button>
+                    <button 
+                        type="button" id="dataButton4" name="Monatsverbrauch">
+                            Monatsverbrauch
+                    </button>
+                    <button
+                        type="button" id="dataButton5" name="Jahresverbrauch">
+                            Jahresverbrauch
+                    </button>
+                </li>
+            </menu>
+        </class>
+    </p>
+    <div id="table-container">
+    </div>
+    <p>
+        <button
+        type="button" id="nextButton" enable>next</button>
+        <button
+        type="button" id="prevButton" name="prev">
+            prev
+        </button>
+    <script>
+
+        $(document).ready(function () {
+            $("#dataButton1").click(function () {
+                $.ajax({
+                    url: "http://localhost:5000/database",
+                    type: "GET",
+                    dataType: "json",
+                    success: function (data) {
+                        var table = $("#table-container");
+                        table.empty();
+                        table.append("<tr><th class='hidden'>Verbraucher_id</th><th>Nutzer_id</th><th>Station</th><th>Verbrauch</th><th>Datum</th></tr>")
+                        $.each(data, function (index, value) {
+                            table.append("<tr><td class='hidden'>" + value.verbraucher_id + "</td><td>" + value.nutzer_id + 
+                                "</td><td>" + value.station + "</td><td>" + value.verbrauch + 
+                                    "</td><td>" + value.date + "</td></tr>");
+                        });
+                        $(document).ready(function () {
+                                if (data.length < 10) {
+                                    $("#nextButton").prop("disabled", true);
+
+                                } if (data.length > 0) {
+                                    $("#nextButton").prop("disabled", false);
+
+                                }
+                            });
+                    }
+                });
+            });
+        });
+
+        $(document).ready(function () {
+            $("#dataButton2").click(function () {
+                $.ajax({
+                    url: "http://localhost:5000/database/tagesverbrauch",
+                    type: "GET",
+                    dataType: "json",
+                    success: function (data) {
+                        var table = $("#table-container");
+                        table.empty();
+                        table.append("<tr><th class='hidden'>Verbraucher_id</th><th>Nutzer_id</th><th>Station</th><th>Verbrauch</th><th>Datum</th></tr>")
+                        $.each(data, function (index, value) {
+                            table.append("<tr><td class='hidden'>" + value.verbraucher_id + "</td><td>" + value.nutzer_id + 
+                                "</td><td>" + value.station + "</td><td>" + value.verbrauch + 
+                                    "</td><td>" + value.date + "</td></tr>");
+                        });
+                    }
+                });
+            });
+        });
+        
+        $(document).ready(function () {
+            $("#dataButton3").click(function () {
+                $.ajax({
+                    url: "http://localhost:5000/database/wochenverbrauch",
+                    type: "GET",
+                    dataType: "json",
+                    success: function (data) {
+                        var table = $("#table-container");
+                        table.empty();
+                        table.append("<tr><th class='hidden'>Verbraucher_id</th><th>Nutzer_id</th><th>Station</th><th>Verbrauch</th><th>Datum</th></tr>")
+                        $.each(data, function (index, value) {
+                            table.append("<tr><td class='hidden'>" + value.verbraucher_id + "</td><td>" + value.nutzer_id + 
+                                "</td><td>" + value.station + "</td><td>" + value.verbrauch + 
+                                    "</td><td>" + value.date + "</td></tr>");
+                        });
+                    }
+                });
+            });
+        });
+        
+        $(document).ready(function () {
+            $("#dataButton4").click(function () {
+                $.ajax({
+                    url: "http://localhost:5000/database/monatsverbrauch",
+                    type: "GET",
+                    dataType: "json",
+                    success: function (data) {
+                        var table = $("#table-container");
+                        table.empty();
+                        table.append("<tr><th class='hidden'>Verbraucher_id</th><th>Nutzer_id</th><th>Station</th><th>Verbrauch</th><th>Datum</th></tr>")
+                        $.each(data, function (index, value) {
+                            table.append("<tr><td class='hidden'>" + value.verbraucher_id + "</td><td>" + value.nutzer_id + 
+                                "</td><td>" + value.station + "</td><td>" + value.verbrauch + 
+                                    "</td><td>" + value.date + "</td></tr>");
+                        });
+                    }
+                });
+            });
+        });
+        
+        $(document).ready(function () {
+            $("#dataButton5").click(function () {
+                $.ajax({
+                    url: "http://localhost:5000/database/jahresverbrauch",
+                    type: "GET",
+                    dataType: "json",
+                    success: function (data) {
+                        var table = $("#table-container");
+                        table.empty();
+                        table.append("<tr><th class='hidden'>Verbraucher_id</th><th>Nutzer_id</th><th>Station</th><th>Verbrauch</th><th>Datum</th></tr>")
+                        $.each(data, function (index, value) {
+                            table.append("<tr><td class='hidden'>" + value.verbraucher_id + "</td><td>" + value.nutzer_id + 
+                                "</td><td>" + value.station + "</td><td>" + value.verbrauch + 
+                                    "</td><td>" + value.date + "</td></tr>");
+                        });
+                    }
+                });
+            });
+        });
+        $(document).ready(function () {
+            $("#nextButton").click(function () {
+                $.ajax({
+                    url: "http://localhost:5000/database/next",
+                    type: "GET",
+                    dataType: "json",
+                    success: function (data) {
+                        var table = $("#table-container");
+                        table.empty();
+                        table.append("<tr><th class='hidden'>Verbraucher_id</th><th>Nutzer_id</th><th>Station</th><th>Verbrauch</th><th>Datum</th></tr>")
+                        $.each(data, function (index, value) {
+                            table.append("<tr><td class='hidden'>" + value.verbraucher_id + "</td><td>" + value.nutzer_id +
+                                "</td><td>" + value.station + "</td><td>" + value.verbrauch +
+                                "</td><td>" + value.date + "</td></tr>");
+                            });
+                        }
+                    });
+                });
+            });
+            $(document).ready(function () {
+                $("#prevButton").click(function () {
+                    $.ajax({
+                        url: "http://localhost:5000/database/prev",
+                        type: "GET",
+                        dataType: "json",
+                        success: function (data) {
+                            var table = $("#table-container");
+                            table.empty();
+                            table.append("<tr><th class='hidden'>Verbraucher_id</th><th>Nutzer_id</th><th>Station</th><th>Verbrauch</th><th>Datum</th></tr>")
+                            $.each(data, function (index, value) {
+                                table.append("<tr><td class='hidden'>" + value.verbraucher_id + "</td><td>" + value.nutzer_id +
+                                    "</td><td>" + value.station + "</td><td>" + value.verbrauch +
+                                    "</td><td>" + value.date + "</td></tr>");
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
