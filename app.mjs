@@ -123,7 +123,7 @@ app.get('/database/wochenverbrauch', (req, res) => {
         } else {
             const filteredRows = rows.filter(row => {
                 const rowDate = new Date(row.date);
-                return rowDate.getMonth()
+                return rowDate >= mondayDate && rowDate <= currentDate;
             });
             res.json(filteredRows);
         }
@@ -135,10 +135,8 @@ app.get('/database/wochenverbrauch', (req, res) => {
 app.get('/database/monatsverbrauch', (req, res) => {
     const conn = openDatabase();
 
-    // Erstes Datum des aktuellen Monats
     const firstDate = new Date(new Date().getFullYear(), new Date().getMonth(), 1);
 
-    // Letztes Datum des aktuellen Monats
     const lastDate = new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0);
 
     const options = {

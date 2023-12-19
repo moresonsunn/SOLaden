@@ -6,7 +6,7 @@ conn = sqlite3.connect('SOLaden.db')
 c = conn.cursor()
 
 # Insert a row of data
-c.execute("INSERT INTO verbrauch (nutzer_id, station, verbrauch, date) VALUES ('1111','Station 1','1000',?)", (time.strftime("20.%m.%Y %H:%M:%S"),))
+c.execute("INSERT INTO verbrauch (nutzer_id, station, verbrauch, date, time) VALUES ('1111','Station 1','1000',?,?)", (time.strftime("19.%m.%Y"),(time.strftime("%H:%M:%S"))))
 
 
 # Commit the changes
