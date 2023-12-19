@@ -1,19 +1,26 @@
-function tageDifferenz(datum1, datum2) {
-  // Millisekunden pro Tag
-  var millisekundenProTag = 24 * 60 * 60 * 1000;
+function formatiereDatum(date) {
+  var tag = date.getDate();
+  var monat = date.getMonth() + 1; // Monate sind von 0 bis 11 indiziert
+  var jahr = date.getFullYear();
 
-  // Differenz in Tagen berechnen
-  var differenzInTage = Math.floor((datum2 - datum1) / millisekundenProTag);
+  // Füge führende Nullen hinzu, wenn nötig
+  tag = (tag < 10) ? "0" + tag : tag;
+  monat = (monat < 10) ? "0" + monat : monat;
 
-  return differenzInTage;
+  return tag + "." + monat + "." + jahr;
 }
 
-// Beispieldaten: 1. Januar 2023 und 15. Januar 2023
-var startDatum = new Date(2023, 0, 1); // Monate sind 0-basiert (Januar = 0)
-var endDatum = new Date(2023, 0, 15);
+function berechneAktuelleWoche() {
+  var heute = new Date();
+  var aktuellerTag = heute.getDay();
+  var tageBisSonntag = 6 - aktuellerTag;
 
-// Differenz in Tagen berechnen
-var differenzInTage = tageDifferenz(startDatum, endDatum);
+  var startDerWoche = new Date(heute);
+  startDerWoche.setDate(heute.getDate() - aktuellerTag);
 
-// Ausgabe der Differenz
-console.log('Anzahl der Tage zwischen den Daten: ' + differenzInTage + ' Tage');
+  var endeDerWoche = new Date(heute);
+  endeDerWoche.setDate(heute.getDate() + tageBisSonntag);
+
+  console.log("Start der Woche: " + formatiereDatum(startDerWoche));
+  console.log("Ende der Woche: " + formatiereDatum(endeDerWoche));
+}

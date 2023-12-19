@@ -17,6 +17,60 @@ let usernameData = {
     username: '',
     password: ''
 };
+function ersterTagDerWoche() {
+    // Aktuelles Datum erhalten
+    var heute = new Date();
+
+    // Den Wochentag des aktuellen Datums erhalten (0 = Sonntag, 1 = Montag, ..., 6 = Samstag)
+    var wochentag = heute.getDay() - 1;
+
+    // Den Zeitpunkt auf den ersten Tag der aktuellen Woche setzen
+    var ersterTag = new Date(heute);
+    ersterTag.setDate(heute.getDate() - wochentag);
+
+    // Das Datum im gewünschten Format erstellen (TT.MM.JJJJ)
+    var tag = ersterTag.getDate();
+    var monat = ersterTag.getMonth() + 1; // Monate sind nullbasiert
+    var jahr = ersterTag.getFullYear();
+
+    // Führende Nullen hinzufügen, wenn nötig
+    tag = tag < 10 ? "0" + tag : tag;
+    monat = monat < 10 ? "0" + monat : monat;
+
+    // Das Datum im Format "TT.MM.JJJJ" zurückgeben
+    return tag + "." + monat + "." + jahr;
+}
+
+// Beispielaufruf
+console.log(ersterTagDerWoche()); //erster tag in der woche !!!!
+
+function letzterTagDerWoche() {
+    // Aktuelles Datum erhalten
+    var heute = new Date();
+
+    // Den Wochentag des aktuellen Datums erhalten (0 = Sonntag, 1 = Montag, ..., 6 = Samstag)
+    var wochentag = heute.getDay() - 1;
+
+    // Den Zeitpunkt auf den letzten Tag der aktuellen Woche setzen
+    var letzterTag = new Date(heute);
+    letzterTag.setDate(heute.getDate() + (6 - wochentag));
+
+    // Das Datum im gewünschten Format erstellen (TT.MM.JJJJ)
+    var tag = letzterTag.getDate();
+    var monat = letzterTag.getMonth() + 1; // Monate sind nullbasiert
+    var jahr = letzterTag.getFullYear();
+
+    // Führende Nullen hinzufügen, wenn nötig
+    tag = tag < 10 ? "0" + tag : tag;
+    monat = monat < 10 ? "0" + monat : monat;
+
+    // Das Datum im Format "TT.MM.JJJJ" zurückgeben
+    return tag + "." + monat + "." + jahr;
+}
+
+// Beispielaufruf
+console.log(letzterTagDerWoche()); //letzter tag in der woche !!!!
+
 function aktuellerTagAlsZahl() {
     // Aktuelles Datum erstellen
     var aktuellesDatum = new Date();
@@ -129,18 +183,20 @@ app.get('/database/tagesverbrauch', (req, res) => {
 
 app.get('/database/wochenverbrauch', (req, res) => {
     const conn = openDatabase();
+    var ergebnisAlsZahl = aktuellerMonatAlsZahl();
+    var ergebnisAlsZahl2 = aktuellesJahrAlsZahl();
+    const date = "%."+ergebnisAlsZahl+"."+ergebnisAlsZahl2;
+    var ergebnisAlsZahl = aktuellesJahrAlsZahl();
+    const date2 = "%."+ergebnisAlsZahl;
 
-    const data = conn.prepare('SELECT * FROM verbrauch WHERE nutzer_id = ? AND `date` >= ? AND `date` <= ?');
-    data.all([usernameData.username, ], (err, rows) => {
+    const data = conn.prepare('SELECT * FROM verbrauch WHERE nutzer_id = ? AND date LIKE ? AND date LIKE ? AND date BETWEEN ? AND ? ORDER BY date DESC');
+    data.all([usernameData.username, date,date2, ersterTagDerWoche(),letzterTagDerWoche()], (err, rows) => {
         if (err) {
             console.error(err);
             res.status(500).send('Internal Server Error');
-        } else {
-            const filteredRows = rows.filter(row => {
-                const rowDate = new Date(row.date);
-                return rowDate >= mondayDate && rowDate <= currentDate;
-            });
-            res.json(filteredRows);
+        }
+        else {
+            res.json(rows);
         }
         data.finalize();
         conn.close();
@@ -152,7 +208,7 @@ app.get('/database/monatsverbrauch', (req, res) => {
     var ergebnisAlsZahl = aktuellerMonatAlsZahl();
     var ergebnisAlsZahl2 = aktuellesJahrAlsZahl();
     const date = "%."+ergebnisAlsZahl+"."+ergebnisAlsZahl2;
-    const data = conn.prepare('SELECT * FROM verbrauch WHERE nutzer_id = ? AND date Like ?');
+    const data = conn.prepare('SELECT * FROM verbrauch WHERE nutzer_id = ? AND date Like ? ORDER BY date DESC');
     
     data.all([usernameData.username,date], (err, rows) => {
         console.log(date);
@@ -172,7 +228,7 @@ app.get('/database/jahresverbrauch', (req, res) => {
     var ergebnisAlsZahl = aktuellesJahrAlsZahl();
     const date = "%."+ergebnisAlsZahl;
 
-    const data = conn.prepare('SELECT * FROM verbrauch WHERE nutzer_id = ? AND date LIKE ?');
+    const data = conn.prepare('SELECT * FROM verbrauch WHERE nutzer_id = ? AND date LIKE ? ORDER BY date DESC');
     
     data.all([usernameData.username, date], (err, rows) => {
         if (err) {
