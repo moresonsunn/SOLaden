@@ -17,6 +17,37 @@ let usernameData = {
     username: '',
     password: ''
 };
+function aktuellerTagAlsZahl() {
+    // Aktuelles Datum erstellen
+    var aktuellesDatum = new Date();
+
+    // Tag extrahieren
+    var aktuellerTag = aktuellesDatum.getDate();
+
+    // Variable zurückgeben
+    return aktuellerTag;
+}
+
+function aktuellerMonatAlsZahl() {
+    // Aktuelles Datum erstellen
+    var aktuellesDatum = new Date();
+  
+    // Monat extrahieren (0-basiert, daher +1)
+    var aktuellerMonat = aktuellesDatum.getMonth() + 1;
+  
+    // Variable zurückgeben
+    return aktuellerMonat;
+}
+function aktuellesJahrAlsZahl() {
+    // Aktuelles Datum erstellen
+    var aktuellesDatum = new Date();
+  
+    // Monat extrahieren (0-basiert, daher +1)
+    var aktuellesJahr = aktuellesDatum.getFullYear();
+  
+    // Variable zurückgeben
+    return aktuellesJahr;
+}
 
 function openDatabase() {
     const conn = new sqlite3.Database('SOLaden.db');
@@ -98,25 +129,9 @@ app.get('/database/tagesverbrauch', (req, res) => {
 
 app.get('/database/wochenverbrauch', (req, res) => {
     const conn = openDatabase();
-    const currentDate = new Date();
-    const currentDay = currentDate.getDay(); 
-    const daysToMonday = currentDay === 0 ? 6 : currentDay - 1; 
-    const mondayDate = new Date(currentDate);
-    mondayDate.setDate(currentDate.getDate() - daysToMonday); 
-
-    const options = {
-        day: '2-digit',
-        month: '2-digit',
-        year: 'numeric',
-        hour12: false,
-    };
-    const datum = new Intl.DateTimeFormat('de-DE', options);
-    const formattedMondayDate = datum.format(mondayDate).replace(/,/g, '');
-    const formattedCurrentDate = datum.format(currentDate).replace(/,/g, '');
 
     const data = conn.prepare('SELECT * FROM verbrauch WHERE nutzer_id = ? AND `date` >= ? AND `date` <= ?');
-    data.all([usernameData.username, formattedMondayDate, formattedCurrentDate], (err, rows) => {
-        console.log(formattedMondayDate, formattedCurrentDate);
+    data.all([usernameData.username, ], (err, rows) => {
         if (err) {
             console.error(err);
             res.status(500).send('Internal Server Error');
@@ -133,27 +148,14 @@ app.get('/database/wochenverbrauch', (req, res) => {
 });
 
 app.get('/database/monatsverbrauch', (req, res) => {
-    const conn = openDatabase();
-
-    const firstDate = new Date(new Date().getFullYear(), new Date().getMonth(), 1);
-
-    const lastDate = new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0);
-
-    const options = {
-        day: '2-digit',
-        month: '2-digit',
-        year: 'numeric',
-        hour12: false,
-    };
-
-    const datum = new Intl.DateTimeFormat('de-DE', options);
-    const formattedFirstDate = datum.format(firstDate).replace(/,/g, '');
-    const formattedLastDate = datum.format(lastDate).replace(/,/g, '');
-
-    const data = conn.prepare('SELECT * FROM verbrauch WHERE nutzer_id = ? AND date BETWEEN ? AND ?');
+    const conn = openDatabase();    
+    var ergebnisAlsZahl = aktuellerMonatAlsZahl();
+    var ergebnisAlsZahl2 = aktuellesJahrAlsZahl();
+    const date = "%."+ergebnisAlsZahl+"."+ergebnisAlsZahl2;
+    const data = conn.prepare('SELECT * FROM verbrauch WHERE nutzer_id = ? AND date Like ?');
     
-    data.all([usernameData.username, formattedFirstDate, formattedLastDate], (err, rows) => {
-        console.log(formattedFirstDate, formattedLastDate);
+    data.all([usernameData.username,date], (err, rows) => {
+        console.log(date);
         if (err) {
             console.error(err);
             res.status(500).send('Internal Server Error');
@@ -167,11 +169,12 @@ app.get('/database/monatsverbrauch', (req, res) => {
 
 app.get('/database/jahresverbrauch', (req, res) => {
     const conn = openDatabase();
-    const currentDate = `01.01.${new Date().getFullYear()}`;
+    var ergebnisAlsZahl = aktuellesJahrAlsZahl();
+    const date = "%."+ergebnisAlsZahl;
 
     const data = conn.prepare('SELECT * FROM verbrauch WHERE nutzer_id = ? AND date LIKE ?');
     
-    data.all([usernameData.username, currentDate + "%"], (err, rows) => {
+    data.all([usernameData.username, date], (err, rows) => {
         if (err) {
             console.error(err);
             res.status(500).send('Internal Server Error');
