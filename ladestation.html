@@ -70,7 +70,7 @@
                                 if (data.length < 10) {
                                     $("#nextButton").prop("disabled", true);
 
-                                } if (data.length > 0) {
+                                } if (data.length > 10) {
                                     $("#nextButton").prop("disabled", false);
 
                                 }
@@ -93,6 +93,15 @@
                             table.append("<tr><td class='hidden'>" + value.verbraucher_id + "</td><td>" + value.nutzer_id + 
                                 "</td><td>" + value.station + "</td><td>" + value.verbrauch + 
                                     "</td><td>" + value.date + "</td></tr>");
+                        });
+                            $(document).ready(function () {
+                                if (data.length < 10) {
+                                    $("#nextButton").prop("disabled", true);
+
+                                } if (data.length > 10) {
+                                    $("#nextButton").prop("disabled", false);
+
+                                }
                         });
                     }
                 });
@@ -131,6 +140,15 @@
                             table.append("<tr><td class='hidden'>" + value.verbraucher_id + "</td><td>" + value.nutzer_id + 
                                 "</td><td>" + value.station + "</td><td>" + value.verbrauch + 
                                     "</td><td>" + value.date + "</td></tr>");
+                         });
+                            $(document).ready(function () {
+                                if (data.length < 10) {
+                                    $("#nextButton").prop("disabled", true);
+
+                                } if (data.length > 10) {
+                                    $("#nextButton").prop("disabled", false);
+
+                                }
                         });
                     }
                 });
@@ -150,6 +168,15 @@
                             table.append("<tr><td class='hidden'>" + value.verbraucher_id + "</td><td>" + value.nutzer_id + 
                                 "</td><td>" + value.station + "</td><td>" + value.verbrauch + 
                                     "</td><td>" + value.date + "</td></tr>");
+                        });
+                            $(document).ready(function () {
+                                if (data.length < 10) {
+                                    $("#nextButton").prop("disabled", true);
+
+                                } if (data.length > 10) {
+                                    $("#nextButton").prop("disabled", false);
+
+                                }
                         });
                     }
                 });
