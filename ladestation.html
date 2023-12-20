@@ -65,15 +65,6 @@
                             table.append("<tr><td class='hidden'>" + value.verbraucher_id + "</td><td>" + value.nutzer_id + 
                                 "</td><td>" + value.station + "</td><td>" + value.verbrauch + 
                                     "</td><td>" + value.date + "</td></tr>");
-                        });
-                        $(document).ready(function () {
-                                if (data.length < 10) {
-                                    $("#nextButton").prop("disabled", true);
-
-                                } if (data.length > 10) {
-                                    $("#nextButton").prop("disabled", false);
-
-                                }
                             });
                     }
                 });
@@ -93,15 +84,6 @@
                             table.append("<tr><td class='hidden'>" + value.verbraucher_id + "</td><td>" + value.nutzer_id + 
                                 "</td><td>" + value.station + "</td><td>" + value.verbrauch + 
                                     "</td><td>" + value.date + "</td></tr>");
-                        });
-                            $(document).ready(function () {
-                                if (data.length < 10) {
-                                    $("#nextButton").prop("disabled", true);
-
-                                } if (data.length > 10) {
-                                    $("#nextButton").prop("disabled", false);
-
-                                }
                         });
                     }
                 });
@@ -140,15 +122,6 @@
                             table.append("<tr><td class='hidden'>" + value.verbraucher_id + "</td><td>" + value.nutzer_id + 
                                 "</td><td>" + value.station + "</td><td>" + value.verbrauch + 
                                     "</td><td>" + value.date + "</td></tr>");
-                         });
-                            $(document).ready(function () {
-                                if (data.length < 10) {
-                                    $("#nextButton").prop("disabled", true);
-
-                                } if (data.length > 10) {
-                                    $("#nextButton").prop("disabled", false);
-
-                                }
                         });
                     }
                 });
@@ -169,15 +142,6 @@
                                 "</td><td>" + value.station + "</td><td>" + value.verbrauch + 
                                     "</td><td>" + value.date + "</td></tr>");
                         });
-                            $(document).ready(function () {
-                                if (data.length < 10) {
-                                    $("#nextButton").prop("disabled", true);
-
-                                } if (data.length > 10) {
-                                    $("#nextButton").prop("disabled", false);
-
-                                }
-                        });
                     }
                 });
             });
@@ -185,7 +149,7 @@
         $(document).ready(function () {
             $("#nextButton").click(function () {
                 $.ajax({
-                    url: "http://localhost:5000/database/next",
+                    url: $("#dataButton"+ Number).attr("data-url"),
                     type: "GET",
                     dataType: "json",
                     success: function (data) {
@@ -196,6 +160,15 @@
                             table.append("<tr><td class='hidden'>" + value.verbraucher_id + "</td><td>" + value.nutzer_id +
                                 "</td><td>" + value.station + "</td><td>" + value.verbrauch +
                                 "</td><td>" + value.date + "</td></tr>");
+                                });
+                        $(document).ready(function () {
+                            if (data.length < 10) {
+                                $("#nextButton").prop("disabled", true);
+
+                            } if (data.length > 10) {
+                                $("#nextButton").prop("disabled", false);
+
+                            }
                             });
                         }
                     });
@@ -204,7 +177,7 @@
             $(document).ready(function () {
                 $("#prevButton").click(function () {
                     $.ajax({
-                        url: "http://localhost:5000/database/prev",
+                        url: $("#button").attr("data-url"),
                         type: "GET",
                         dataType: "json",
                         success: function (data) {
