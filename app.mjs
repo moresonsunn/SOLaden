@@ -158,6 +158,7 @@ app.get('/database', (req, res) => {
 app.get('/database/tagesverbrauch', (req, res) => {
     const conn = openDatabase();
     const date = new Date();
+    const offset = (currentPage - 1) * itemsPerPage;
 
     const options = {
         day: '2-digit',
@@ -167,7 +168,7 @@ app.get('/database/tagesverbrauch', (req, res) => {
     };
     const datum = new Intl.DateTimeFormat('de-DE', options);
     const formatiertesDatum = datum.format(date).replace(/,/g, '');
-    const data = conn.prepare('SELECT * FROM verbrauch WHERE nutzer_id = ? AND date = ?',[usernameData.username,formatiertesDatum]);
+    const data = conn.prepare('SELECT * FROM verbrauch WHERE nutzer_id = ? AND date = ? LIMIT ? OFFSET ?',[usernameData.username,formatiertesDatum, itemsPerPage, offset]);
     console.log(formatiertesDatum);
     data.all((err, rows) => {
         if (err) {
@@ -188,9 +189,10 @@ app.get('/database/wochenverbrauch', (req, res) => {
     const date = "%."+ergebnisAlsZahl+"."+ergebnisAlsZahl2;
     var ergebnisAlsZahl = aktuellesJahrAlsZahl();
     const date2 = "%."+ergebnisAlsZahl;
+    const offset = (currentPage - 1) * itemsPerPage;
 
-    const data = conn.prepare('SELECT * FROM verbrauch WHERE nutzer_id = ? AND date LIKE ? AND date LIKE ? AND date BETWEEN ? AND ? ORDER BY date DESC');
-    data.all([usernameData.username, date,date2, ersterTagDerWoche(),letzterTagDerWoche()], (err, rows) => {
+    const data = conn.prepare('SELECT * FROM verbrauch WHERE nutzer_id = ? AND date LIKE ? AND date LIKE ? AND date BETWEEN ? AND ? ORDER BY date DESC LIMIT ? OFFSET ?');
+    data.all([usernameData.username, date,date2, ersterTagDerWoche(),letzterTagDerWoche(), itemsPerPage, offset], (err, rows) => {
         if (err) {
             console.error(err);
             res.status(500).send('Internal Server Error');
@@ -208,9 +210,10 @@ app.get('/database/monatsverbrauch', (req, res) => {
     var ergebnisAlsZahl = aktuellerMonatAlsZahl();
     var ergebnisAlsZahl2 = aktuellesJahrAlsZahl();
     const date = "%."+ergebnisAlsZahl+"."+ergebnisAlsZahl2;
-    const data = conn.prepare('SELECT * FROM verbrauch WHERE nutzer_id = ? AND date Like ? ORDER BY date DESC');
+    const offset = (currentPage - 1) * itemsPerPage;
+    const data = conn.prepare('SELECT * FROM verbrauch WHERE nutzer_id = ? AND date Like ? ORDER BY date DESC LIMIT ? OFFSET ?');
     
-    data.all([usernameData.username,date], (err, rows) => {
+    data.all([usernameData.username,date, itemsPerPage, offset], (err, rows) => {
         console.log(date);
         if (err) {
             console.error(err);
@@ -227,10 +230,11 @@ app.get('/database/jahresverbrauch', (req, res) => {
     const conn = openDatabase();
     var ergebnisAlsZahl = aktuellesJahrAlsZahl();
     const date = "%."+ergebnisAlsZahl;
+    const offset = (currentPage - 1) * itemsPerPage;
 
-    const data = conn.prepare('SELECT * FROM verbrauch WHERE nutzer_id = ? AND date LIKE ? ORDER BY date DESC');
+    const data = conn.prepare('SELECT * FROM verbrauch WHERE nutzer_id = ? AND date LIKE ? ORDER BY date DESC LIMIT ? OFFSET ?');
     
-    data.all([usernameData.username, date], (err, rows) => {
+    data.all([usernameData.username, date, itemsPerPage, offset], (err, rows) => {
         if (err) {
             console.error(err);
             res.status(500).send('Internal Server Error');
