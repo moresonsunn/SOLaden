@@ -2,7 +2,7 @@
 <html>
 <head>
     <title>Ladestation</title>
-    <link rel="stylesheet" type="text/css" href="/src/css/water.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="src/css/water.css" media="screen">
 </head>
 <body>
     <h1>Ihr Verbrauch bei der Ladestation von der TBS1</h1>
@@ -143,10 +143,12 @@
                 });
             });
         });
+    </script>
+    <script>
         $(document).ready(function () {
             $("#nextButton").click(function () {
                 $.ajax({
-                    url: $("#dataButton"+ Number).attr("data-url"),
+                    url: $("#dataButton").attr("data-url"),
                     type: "GET",
                     dataType: "json",
                     success: function (data) {
@@ -185,11 +187,18 @@
                                 table.append("<tr><td class='hidden'>" + value.verbraucher_id + "</td><td>" + value.nutzer_id + 
                                     "</td><td>" + value.station + "</td><td>" + value.verbrauch + 
                                         "</td><td>" + value.date + "</td></tr>");
-                            });
-                        }
+                                        });
+                            $(document).ready(function () {
+                                if (data.length < 10) {
+                                    $("#prevButton").prop("disabled", true);
+                                } if (data.length > 10) {
+                                    $("#prevButton").prop("disabled", false);
+                                }
+                                });
+                            }
+                        });
                     });
-                })
-            });
+                });
     </script>
 </body>
 </html>
