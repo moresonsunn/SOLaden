@@ -149,7 +149,7 @@
         $(document).ready(function () {
             $("#nextButton").click(function () {
                 $.ajax({
-                    url: $("#dataButton"+ Number).attr("data-url"),
+                    url: $("#dataButton").attr("data-url"),
                     type: "GET",
                     dataType: "json",
                     success: function (data) {
@@ -177,7 +177,7 @@
             $(document).ready(function () {
                 $("#prevButton").click(function () {
                     $.ajax({
-                        url: $("#button").attr("data-url"),
+                        url: $("#dataButton").attr("data-url"),
                         type: "GET",
                         dataType: "json",
                         success: function (data) {
