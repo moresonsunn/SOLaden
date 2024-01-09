@@ -2,48 +2,7 @@
 <html>
 <head>
     <title>Admin Panel</title>
-    <style>
-        /* Stilisierung des Adminpanels */
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-        }
-        
-        header {
-            background-color: #333;
-            color: #fff;
-            padding: 20px;
-            text-align: center;
-        }
-        
-        nav {
-            background-color: #f4f4f4;
-            padding: 10px;
-        }
-        
-        nav ul {
-            list-style-type: none;
-            margin: 0;
-            padding: 0;
-        }
-        
-        nav ul li {
-            display: inline;
-            margin-right: 10px;
-        }
-        
-        main {
-            padding: 20px;
-        }
-        
-        footer {
-            background-color: #333;
-            color: #fff;
-            padding: 20px;
-            text-align: center;
-        }
-    </style>
+    <link rel="stylesheet" type="text/css" href="/src/css/adminpanel.css">
 </head>
 <body>
     <header>
@@ -52,18 +11,84 @@
     
     <nav>
         <ul>
-            <li><a href="#">Dashboard</a></li>
-            <li><a href="#">Benutzer verwalten</a></li>
-            <li><a href="#">Einstellungen</a></li>
+            <li><a id= "dashboard-link" href="#dashboard">Dashboard</a></li>
+            <li><a id="verwalten-link" href="#verwalten">Benutzer verwalten</a></li>
+            <li><a id= "einstellungen-link" href="#einstellungen">Einstellungen</a></li>
         </ul>
     </nav>
     
     <main>
-        <!-- Hier kannst du den Inhalt deines Adminpanels hinzufügen -->
+        <h2>Dashboard</h2>
+        <p>Willkommen im Admin Panel.</p>
+        <table id="table-container"></table> <!-- Tabelle hinzugefügt -->
     </main>
     
     <footer>
         &copy; 2022 Admin Panel. Alle Rechte vorbehalten.
     </footer>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $("#verwalten-link").click(function () {
+                $.ajax({
+                    url: "http://localhost:5000/nutzer",
+                    type: "GET",
+                    dataType: "json",
+                    success: function (data) {
+                        var table = $("#table-container");
+                        table.empty();
+                        table.append("<tr><th>ID</th><th>");
+                        $.each(data, function (index, value) {
+                            table.append("<tr><td>" + value.nutzer_id + "</td>");
+                        });
+                    },
+                    error: function (xhr, status, error) {
+                        console.log("Error: " + error);
+                    }
+                });
+            });
+        });
+        </script>
+    <script>
+        $(document).ready(function () {
+            $("#dashboard-link").click(function () {
+                $.ajax({
+                    url: "http://localhost:5000/database",
+                    type: "GET",
+                    dataType: "json",
+                    success: function (data) {
+                        var table = $("#table-container");
+                        table.empty();
+                        table.append("<tr><th class='hidden'>Verbraucher_id</th><th>Nutzer_id</th><th>Station</th><th>Verbrauch</th><th>Datum</th></tr>")
+                        $.each(data, function (index, value) {
+                            table.append("<tr><td class='hidden'>" + value.verbraucher_id + "</td><td>" + value.nutzer_id + 
+                                "</td><td>" + value.station + "</td><td>" + value.verbrauch + 
+                                    "</td><td>" + value.date + "</td></tr>");
+                            });
+                    }
+                });
+            });
+        });
+        $(document).ready(function () {
+            $("#einstellungen-link").click(function () {
+                $.ajax({
+                    url: "http://localhost:5000/nutzer",
+                    type: "GET",
+                    dataType: "json",
+                    success: function (data) {
+                        var table = $("#table-container");
+                        table.empty();
+                        table.append("<tr><th>ID</th><th>");
+                        $.each(data, function (index, value) {
+                            table.append("<tr><td>" + value.nutzer_id + "</td>");
+                        });
+                    },
+                    error: function (xhr, status, error) {
+                        console.log("Error: " + error);
+                    }
+                });
+            });
+        });
+    </script>
 </body>
 </html>

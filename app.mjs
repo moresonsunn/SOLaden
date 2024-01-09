@@ -68,17 +68,6 @@ function letzterTagDerWoche() {
     return tag + "." + monat + "." + jahr;
 }
 
-function aktuellerTagAlsZahl() {
-    // Aktuelles Datum erstellen
-    var aktuellesDatum = new Date();
-
-    // Tag extrahieren
-    var aktuellerTag = aktuellesDatum.getDate();
-
-    // Variable zurückgeben
-    return aktuellerTag;
-}
-
 function aktuellerMonatAlsZahl() {
     // Aktuelles Datum erstellen
     var aktuellesDatum = new Date();
@@ -113,11 +102,19 @@ app.get('/main.js', (req, res) => {
     res.sendFile(path.resolve('src/js/main.js'));
 });
 
-app.post('/login', (req, res) => {
+app.post('/login.html', (req, res) => {
     res.sendFile(path.resolve('login.html'));
 });
 
-app.post('/ladestation', (req, res) => {
+app.get('/src/css/water.css', (req, res) => {
+    res.sendFile(path.resolve('/src/css/water.css'), { cacheControl: false });
+});
+
+app.get('/src/css/adminpanel.css', (req, res) => {
+    res.sendFile(path.resolve('/src/css/adminpanel.css'), { cacheControl: false });
+});
+
+app.post('/ladestation.html', (req, res) => {
     usernameData.username = req.body.username;
     usernameData.password = req.body.password;
     const conn = openDatabase();
@@ -127,8 +124,12 @@ app.post('/ladestation', (req, res) => {
             console.error(err);
             res.status(500).send('Internal Server Error');
         } else if (row) {
+            if (usernameData.username === '0000') {
+                res.sendFile(path.resolve('adminpanel.html'));
+            } else {
                 res.sendFile(path.resolve('ladestation.html'));
-                console.log(req.body);
+            }
+            console.log(req.body);
         } else {
             res.status(401).send('Unauthorized');
             console.log(req.body);
@@ -142,6 +143,23 @@ app.get('/database', (req, res) => {
 
     const data = conn.prepare('SELECT * FROM verbrauch WHERE nutzer_id = ? LIMIT ? OFFSET ?');
     data.all([usernameData.username, itemsPerPage, offset], (err, rows) => {
+        if (err) {
+            console.error(err);
+            res.status(500).send('Internal Server Error');
+        } else {
+            res.json(rows);
+        }
+        data.finalize();
+        conn.close();
+    });
+});
+
+app.get('/nutzer', (req, res) => {
+    const conn = openDatabase();
+    const offset = (currentPage - 1) * itemsPerPage;
+
+    const data = conn.prepare('SELECT * FROM nutzer LIMIT ? OFFSET ?');
+    data.all([itemsPerPage, offset], (err, rows) => {
         if (err) {
             console.error(err);
             res.status(500).send('Internal Server Error');

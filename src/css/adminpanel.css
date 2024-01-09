@@ -1,0 +1,60 @@
+/* FILEPATH: /C:/Users/phili_9cy8ewq/Desktop/SOLaden/Ladestation/SOLaden/src/css/adminpanel.css */
+:root {
+    --font-family: Arial, sans-serif;
+    --background-color-header: #333;
+    --color-header: #fff;
+    --padding-header: 20px;
+    --text-align-header: center;
+    --background-color-nav: #f4f4f4;
+    --padding-nav: 10px;
+    --list-style-type-nav: none;
+    --margin-nav: 0;
+    --padding-nav: 0;
+    --display-nav: inline;
+    --margin-right-nav: 10px;
+    --padding-main: 20px;
+    --background-color-footer: #333;
+    --color-footer: #fff;
+    --padding-footer: 20px;
+    --text-align-footer: center;
+}
+
+body {
+    font-family: var(--font-family);
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    background-color: var(--background-color-header);
+    color: var(--color-header);
+    padding: var(--padding-header);
+    text-align: var(--text-align-header);
+}
+
+nav {
+    background-color: var(--background-color-nav);
+    padding: var(--padding-nav);
+}
+
+nav ul {
+    list-style-type: var(--list-style-type-nav);
+    margin: var(--margin-nav);
+    padding: var(--padding-nav);
+}
+
+nav ul li {
+    display: var(--display-nav);
+    margin-right: var(--margin-right-nav);
+}
+
+main {
+    padding: var(--padding-main);
+}
+
+footer {
+    background-color: var(--background-color-footer);
+    color: var(--color-footer);
+    padding: var(--padding-footer);
+    text-align: var(--text-align-footer);
+}
