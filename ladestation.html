@@ -43,11 +43,13 @@
     </div>
     <p>
         <button
-        type="button" id="nextButton" enable>next</button>
+        type="button" id="nextButton" enable>
+        next
+    </button>
         <button
         type="button" id="prevButton" name="prev">
             prev
-        </button>
+    </button>
     </p>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script>
@@ -149,7 +151,7 @@
         $(document).ready(function () {
             $("#nextButton").click(function () {
                 $.ajax({
-                    url: $("#dataButton").attr("data-url"),
+                    url: $("#dataButton"+ Number).attr("data-url"),
                     type: "GET",
                     dataType: "json",
                     success: function (data) {
@@ -177,7 +179,7 @@
             $(document).ready(function () {
                 $("#prevButton").click(function () {
                     $.ajax({
-                        url: $("#dataButton").attr("data-url"),
+                        url: $("#button").attr("data-url"),
                         type: "GET",
                         dataType: "json",
                         success: function (data) {
@@ -185,14 +187,14 @@
                             table.empty();
                             table.append("<tr><th class='hidden'>Verbraucher_id</th><th>Nutzer_id</th><th>Station</th><th>Verbrauch</th><th>Datum</th></tr>")
                             $.each(data, function (index, value) {
-                                table.append("<tr><td class='hidden'>" + value.verbraucher_id + "</td><td>" + value.nutzer_id +
-                                    "</td><td>" + value.station + "</td><td>" + value.verbrauch +
-                                    "</td><td>" + value.date + "</td></tr>");
-                        });
-                    }
-                });
+                                table.append("<tr><td class='hidden'>" + value.verbraucher_id + "</td><td>" + value.nutzer_id + 
+                                    "</td><td>" + value.station + "</td><td>" + value.verbrauch + 
+                                        "</td><td>" + value.date + "</td></tr>");
+                            });
+                        }
+                    });
+                })
             });
-        });
     </script>
 </body>
 </html>
