@@ -63,6 +63,9 @@
                                 "</td><td>" + value.station + "</td><td>" + value.verbrauch + 
                                     "</td><td>" + value.date + "</td></tr>");
                             });
+                        $("#nextButton").attr("data-url", "http://localhost:5000/database");
+                        $("#prevButton").attr("data-url", "http://localhost:5000/database");
+
                     }
                 });
             });
@@ -82,6 +85,8 @@
                                 "</td><td>" + value.station + "</td><td>" + value.verbrauch + 
                                     "</td><td>" + value.date + "</td></tr>");
                         });
+                        $("#nextButton").attr("data-url", "http://localhost:5000/database/tagesverbrauch");
+                        $("#prevButton").attr("data-url", "http://localhost:5000/database/tagesverbrauch");
                     }
                 });
             });
@@ -101,6 +106,8 @@
                                 "</td><td>" + value.station + "</td><td>" + value.verbrauch + 
                                     "</td><td>" + value.date + "</td></tr>");
                         });
+                        $("#nextButton").attr("data-url", "http://localhost:5000/database/wochenverbrauch");
+                        $("#prevButton").attr("data-url", "http://localhost:5000/database/wochenverbrauch");
                     }
                 });
             });
@@ -120,6 +127,8 @@
                                 "</td><td>" + value.station + "</td><td>" + value.verbrauch + 
                                     "</td><td>" + value.date + "</td></tr>");
                         });
+                        $("#nextButton").attr("data-url", "http://localhost:5000/database/monatsverbrauch");
+                        $("#prevButton").attr("data-url", "http://localhost:5000/database/monatsverbrauch");
                     }
                 });
             });
@@ -139,6 +148,8 @@
                                 "</td><td>" + value.station + "</td><td>" + value.verbrauch + 
                                     "</td><td>" + value.date + "</td></tr>");
                         });
+                        $("#nextButton").attr("data-url", "http://localhost:5000/database/jahresverbrauch");
+                        $("#prevButton").attr("data-url", "http://localhost:5000/database/jahresverbrauch");
                     }
                 });
             });
@@ -148,7 +159,7 @@
         $(document).ready(function () {
             $("#nextButton").click(function () {
                 $.ajax({
-                    url: $("#dataButton").attr("data-url"),
+                    url: "http://localhost:5000/database/next",
                     type: "GET",
                     dataType: "json",
                     success: function (data) {
@@ -176,7 +187,7 @@
             $(document).ready(function () {
                 $("#prevButton").click(function () {
                     $.ajax({
-                        url: $("#button").attr("data-url"),
+                        url: "http://localhost:5000/database/prev",
                         type: "GET",
                         dataType: "json",
                         success: function (data) {
@@ -187,14 +198,17 @@
                                 table.append("<tr><td class='hidden'>" + value.verbraucher_id + "</td><td>" + value.nutzer_id + 
                                     "</td><td>" + value.station + "</td><td>" + value.verbrauch + 
                                         "</td><td>" + value.date + "</td></tr>");
-                                        });
+                                });
                             $(document).ready(function () {
                                 if (data.length < 10) {
                                     $("#prevButton").prop("disabled", true);
-                                } if (data.length > 10) {
+
+                                } if (data.length > 0) {
                                     $("#prevButton").prop("disabled", false);
-                                }
-                                });
+
+                                } if (data.length == 10) {
+                                    $("#nextButton").prop("disabled", false);
+                                }});
                             }
                         });
                     });
