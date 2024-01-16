@@ -8,6 +8,8 @@ c = conn.cursor()
 # Insert a row of data
 c.execute("INSERT INTO verbrauch (nutzer_id, station, verbrauch, date, time) VALUES ('1111','Station 1','1000',?,?)", (time.strftime("23.%m.%Y"),(time.strftime("%H:%M:%S"))))
 
+# I want to change the name of a table 
+
 
 # Commit the changes
 conn.commit()

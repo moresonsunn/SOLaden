@@ -1,60 +1,63 @@
-/* FILEPATH: /C:/Users/phili_9cy8ewq/Desktop/SOLaden/Ladestation/SOLaden/src/css/adminpanel.css */
-:root {
-    --font-family: Arial, sans-serif;
-    --background-color-header: #333;
-    --color-header: #fff;
-    --padding-header: 20px;
-    --text-align-header: center;
-    --background-color-nav: #f4f4f4;
-    --padding-nav: 10px;
-    --list-style-type-nav: none;
-    --margin-nav: 0;
-    --padding-nav: 0;
-    --display-nav: inline;
-    --margin-right-nav: 10px;
-    --padding-main: 20px;
-    --background-color-footer: #333;
-    --color-footer: #fff;
-    --padding-footer: 20px;
-    --text-align-footer: center;
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #1e1e1e;
+    color: #f1f1f1;
 }
 
-body {
-    font-family: var(--font-family);
+header {
+    background-color: #f1f1f1;
+    padding: 20px;
+    text-align: center;
+}
+
+nav ul {
+    list-style-type: none;
     margin: 0;
     padding: 0;
 }
 
-header {
-    background-color: var(--background-color-header);
-    color: var(--color-header);
-    padding: var(--padding-header);
-    text-align: var(--text-align-header);
+nav li {
+    display: inline;
+    margin-right: 10px;
 }
 
-nav {
-    background-color: var(--background-color-nav);
-    padding: var(--padding-nav);
+nav a {
+    text-decoration: none;
+    color: #f1f1f1;
 }
 
-nav ul {
-    list-style-type: var(--list-style-type-nav);
-    margin: var(--margin-nav);
-    padding: var(--padding-nav);
-}
-
-nav ul li {
-    display: var(--display-nav);
-    margin-right: var(--margin-right-nav);
+nav a:hover {
+    color: #e64a27;
 }
 
 main {
-    padding: var(--padding-main);
+    padding: 20px;
 }
 
 footer {
-    background-color: var(--background-color-footer);
-    color: var(--color-footer);
-    padding: var(--padding-footer);
-    text-align: var(--text-align-footer);
+    background-color: #f1f1f1;
+    padding: 20px;
+    text-align: center;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+table th, table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+table th {
+    background-color: #e64a27;
+    color: white;
+}
+
+table tr:nth-child(even) {
+    background-color: #f2f2f2;
 }
