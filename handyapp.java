@@ -1,39 +1,15 @@
-import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.Toast;
+import javax.swing.*;
+import java.awt.*;
 
-public class LoginActivity extends AppCompatActivity {
+public class MyApp extends JFrame {
+    public MyApp() {
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setSize(400, 400);
+        getContentPane().setBackground(Color.WHITE);
+        setVisible(true);
+    }
 
-    private EditText usernameEditText;
-    private EditText passwordEditText;
-    private Button loginButton;
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
-
-        usernameEditText = findViewById(R.id.usernameEditText);
-        passwordEditText = findViewById(R.id.passwordEditText);
-        loginButton = findViewById(R.id.loginButton);
-
-        loginButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String username = usernameEditText.getText().toString();
-                String password = passwordEditText.getText().toString();
-
-                if (username.equals("admin") && password.equals("password")) {
-                    // Login erfolgreich
-                    Toast.makeText(LoginActivity.this, "Login erfolgreich", Toast.LENGTH_SHORT).show();
-                } else {
-                    // Login fehlgeschlagen
-                    Toast.makeText(LoginActivity.this, "Login fehlgeschlagen", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(MyApp::new);
     }
 }
