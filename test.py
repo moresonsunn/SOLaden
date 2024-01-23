@@ -10,9 +10,6 @@ c = conn.cursor()
 # Insert a row of data
 #c.execute("INSERT INTO verbrauch (nutzer_id, station, verbrauch, date, time) VALUES ('1111','Station 1','1000',?,?)", (time.strftime("23.%m.%Y"),(time.strftime("%H:%M:%S"))))
 
-# Connect to the database
-conn = sqlite3.connect('SOLaden.db')
-
 # Fetch data from the database
 query = "SELECT * FROM verbrauch"
 df = pd.read_sql_query(query, conn)
