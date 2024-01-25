@@ -3,6 +3,7 @@ from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.label import Label
 from kivy.uix.textinput import TextInput
 from kivy.uix.button import Button
+import sqlite3
 
 class LoginScreen(BoxLayout):
     def __init__(self, **kwargs):
@@ -11,7 +12,7 @@ class LoginScreen(BoxLayout):
         self.orientation = 'vertical'
         self.padding = 50
 
-        self.username_label = Label(text='Benutzername:')
+        self.username_label = Label(text='Nutzer ID:')
         self.username_input = TextInput()
 
         self.password_label = Label(text='Passwort:')
@@ -29,13 +30,18 @@ class LoginScreen(BoxLayout):
         username = self.username_input.text
         password = self.password_input.text
 
-        # Hier könnten Sie die Überprüfung der Anmeldedaten durchführen
-        # Zum Beispiel könnten Sie eine Datenbankabfrage verwenden.
+        conn = sqlite3.connect('SOLaden.db')
+        cursor = conn.cursor()
 
-        if username == 'IhrBenutzername' and password == 'IhrPasswort':
+        cursor.execute("SELECT * FROM nutzer WHERE nutzer_id=? AND passwort=?", (username, password))
+        result = cursor.fetchone()
+
+        if result:
             print('Erfolgreich angemeldet!')
         else:
             print('Falscher Benutzername oder falsches Passwort.')
+
+        conn.close()
 
 class MyApp(App):
     def build(self):
