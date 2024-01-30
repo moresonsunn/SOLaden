@@ -37,6 +37,7 @@ class LoginScreen(BoxLayout):
         result = cursor.fetchone()
 
         if result:
+            #url = 
             print('Erfolgreich angemeldet!')
         else:
             print('Falscher Benutzername oder falsches Passwort.')

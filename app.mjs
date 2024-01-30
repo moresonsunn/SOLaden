@@ -5,6 +5,7 @@ import cors from 'cors';
 
 const app = express();
 const port = 5000;
+const ip = '192.168.11.95';
 
 app.use(cors());
 app.use(express.static('public'));
@@ -278,5 +279,5 @@ app.get('/database/prev', (req, res) => {
 });
 
 app.listen(port, () => {
-    console.log(`Server running at http://localhost:${port}/`);
+    console.log(`Server running at http://${ip}:${port}/`);
 });
