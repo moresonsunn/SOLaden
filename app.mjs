@@ -108,7 +108,7 @@ app.post('/login.html', (req, res) => {
 });
 
 app.get('/src/css/water.css', (req, res) => {
-    res.sendFile(path.resolve('src/css/water.css'), { cacheControl: true });
+    res.sendFile(path.resolve('src/css/ladestation.css'), { cacheControl: true });
 });
 
 app.get('/src/css/adminpanel.css', (req, res) => {
