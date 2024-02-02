@@ -159,7 +159,7 @@
         $(document).ready(function () {
             $("#nextButton").click(function () {
                 $.ajax({
-                    url: "http://localhost:5000/database/next",
+                    url: "http://localhost:5000/database/next", // change it
                     type: "GET",
                     dataType: "json",
                     success: function (data) {
@@ -187,7 +187,7 @@
             $(document).ready(function () {
                 $("#prevButton").click(function () {
                     $.ajax({
-                        url: "http://localhost:5000/database/prev",
+                        url: "http://localhost:5000/database/prev", // change it
                         type: "GET",
                         dataType: "json",
                         success: function (data) {
