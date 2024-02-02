@@ -115,6 +115,10 @@ app.get('/src/css/adminpanel.css', (req, res) => {
     res.sendFile(path.resolve('src/css/adminpanel.css'), { cacheControl: true });
 });
 
+app.get('/src/css/login.css', (req, res) => {
+    res.sendFile(path.resolve('src/css/login.css'), { cacheControl: true });
+});
+
 app.post('/ladestation.html', (req, res) => {
     usernameData.username = req.body.username;
     usernameData.password = req.body.password;

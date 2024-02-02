@@ -1,14 +1,14 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Panel</title>
     <link rel="stylesheet" type="text/css" href="src/css/adminpanel.css" media="screen">
 </head>
 <body>
     <header>
-        <header>
-            <img src="/src/logo/tbs1_logo.jpg" alt="TBS1 Logo" style="width: 150px;height: 50px;" class="float-left logo"/>
-        </header>
+        <img src="/src/logo/tbs1_logo.jpg" alt="TBS1 Logo" style="width: 150px;height: 50px;" class="float-left logo"/>
         <h1>Admin Panel</h1>
     </header>
     <nav>
@@ -16,8 +16,11 @@
             <li><button id="dashboard-link" onclick="fetchData('http://localhost:5000/database', '#table-container', ['Nutzer_id', 'Station', 'Verbrauch', 'Datum'])">Dashboard</button></li>
             <li><button id="verwalten-link" onclick="fetchData('http://localhost:5000/nutzer', '#table-container', ['ID'])">Benutzer verwalten</button></li>
             <li><button id="einstellungen-link" onclick="fetchData('http://localhost:5000/nutzer', '#table-container', ['ID'])">Einstellungen</button></li>
+            <li><button id="addUserButton">Add User</button></li>
+            <li><button id="deleteUserButton">Delete User</button></li>
         </ul>
     </nav>
+    
     <main>
         <h2>Dashboard</h2>
         <p>Willkommen im Admin Panel.</p>
@@ -54,6 +57,43 @@
                 }
             });
         }
+    
+        function showAddDeleteButtons() {
+            $("#addUserButton, #deleteUserButton").show();
+        }
+    
+        function hideAddDeleteButtons() {
+            $("#addUserButton, #deleteUserButton").hide();
+        }
+    
+        function addUser() {
+            // Implement your logic for adding a user here
+            alert("Add User function is not implemented yet!");
+        }
+    
+        function deleteUser() {
+            // Implement your logic for deleting a user here
+            alert("Delete User function is not implemented yet!");
+        }
+    
+        $(document).ready(function () {
+            hideAddDeleteButtons();
+    
+            $("#einstellungen-link").click(function () {
+                fetchData('http://localhost:5000/nutzer', '#table-container', ['ID']);
+                showAddDeleteButtons();
+            });
+    
+            $("#addUserButton").click(function () {
+                addUser();
+            });
+    
+            $("#deleteUserButton").click(function () {
+                deleteUser();
+            });
+        });
     </script>
+    
+    
 </body>
 </html>
