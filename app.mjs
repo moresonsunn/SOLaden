@@ -5,7 +5,7 @@ import cors from 'cors';
 
 const app = express();
 const port = 5000;
-const ip = '192.168.11.95';
+const ip = 'localhost';
 
 app.use(cors());
 app.use(express.static('public'));

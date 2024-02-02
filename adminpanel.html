@@ -6,13 +6,16 @@
 </head>
 <body>
     <header>
+        <header>
+            <img src="/src/logo/tbs1_logo.jpg" alt="TBS1 Logo" style="width: 150px;height: 50px;" class="float-left logo"/>
+        </header>
         <h1>Admin Panel</h1>
     </header>
     <nav>
         <ul>
-            <li><a id= "dashboard-link" href="#dashboard">Dashboard</a></li>
-            <li><a id="verwalten-link" href="#verwalten">Benutzer verwalten</a></li>
-            <li><a id= "einstellungen-link" href="#einstellungen">Einstellungen</a></li>
+            <li><button id="dashboard-link" onclick="fetchData('http://localhost:5000/database', '#table-container', ['Nutzer_id', 'Station', 'Verbrauch', 'Datum'])">Dashboard</button></li>
+            <li><button id="verwalten-link" onclick="fetchData('http://localhost:5000/nutzer', '#table-container', ['ID'])">Benutzer verwalten</button></li>
+            <li><button id="einstellungen-link" onclick="fetchData('http://localhost:5000/nutzer', '#table-container', ['ID'])">Einstellungen</button></li>
         </ul>
     </nav>
     <main>
@@ -20,9 +23,8 @@
         <p>Willkommen im Admin Panel.</p>
         <table id="table-container"></table>
     </main>
-    
     <footer>
-        &copy; 2022 Admin Panel. Alle Rechte vorbehalten.
+        &copy; 2024 Admin Panel. Alle Rechte vorbehalten.
     </footer>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script>
@@ -52,22 +54,6 @@
                 }
             });
         }
-
-        $(document).ready(function () {
-            $("#verwalten-link").click(function () {
-                fetchData("http://localhost:5000/nutzer", "#table-container", ["ID"]);
-            });
-        });
-        $(document).ready(function () {
-            $("#dashboard-link").click(function () {
-                fetchData("http://localhost:5000/database", "#table-container", ["Nutzer_id", "Station", "Verbrauch", "Datum"]);
-            });
-        });
-        $(document).ready(function () {
-            $("#einstellungen-link").click(function () {
-                fetchData("http://localhost:5000/nutzer", "#table-container", ["ID"]);
-            });
-        });
     </script>
 </body>
 </html>
