@@ -1,33 +1,43 @@
 import sqlite3
-import time
-import pandas as pd
-import sqlite3
+from datetime import datetime
 
-# Connect to the database
-conn = sqlite3.connect('SOLaden.db')
-c = conn.cursor()
+connect = sqlite3.connect("SOLaden.db")
+c = connect.cursor()
 
-# Insert a row of data
-#c.execute("INSERT INTO verbrauch (nutzer_id, station, verbrauch, date, time) VALUES ('1111','Station 1','1000',?,?)", (time.strftime("23.%m.%Y"),(time.strftime("%H:%M:%S"))))
+# Tabellen lÃ¶schen, falls sie bereits existieren
+c.execute("""DROP TABLE IF EXISTS nutzer""")
+c.execute("""DROP TABLE IF EXISTS verbrauch""")
+c.execute("""DROP TABLE IF EXISTS station""")
 
-# Fetch data from the database
-query = "SELECT * FROM verbrauch"
-df = pd.read_sql_query(query, conn)
-
-# Create an Excel file
-excel_file = 'SOLaden_data.xlsx'
-df.to_excel(excel_file, index=False)
-
-# Close the connection
-conn.close()
+# Tabelle "nutzer" erstellen // nutzer_name /* inner join!!!! */
+c.execute("""CREATE TABLE nutzer(
+            nutzer_id INTEGER PRIMARY KEY,
+            nutzer_name TEXT,                
+            passwort TEXT
+            )""")
 
 
-# Commit the changes
-conn.commit()
 
-# Fetch and print the updated data
-c.execute("SELECT * FROM verbrauch WHERE nutzer_id = 1111")
-print(c.fetchall())
+# Tabelle "station" erstellen // station_name /* inner join!!!! */
+c.execute("""CREATE TABLE station (
+            station_id INTEGER PRIMARY KEY AUTOINCREMENT,
+            station_name TEXT,                  
+            station_verbrauch TEXT,
+            station_anmerkung TEXT
+            )""")
 
-# Close the connection
-conn.close()
+# Tabelle "verbrauch" erstellen
+c.execute("""CREATE TABLE verbrauch (
+            verbraucher_id INTEGER PRIMARY KEY AUTOINCREMENT,
+            nutzer_id INTEGER,
+            station_id INTEGER,
+            verbrauch TEXT,
+            date DATE,
+            time TIME,
+            FOREIGN KEY (station_id) REFERENCES station(station_id),
+            FOREIGN KEY (nutzer_id) REFERENCES nutzer(nutzer_id)
+            )""")
+
+
+connect.commit()
+connect.close()
