@@ -107,6 +107,10 @@ app.post('/login.html', (req, res) => {
     res.sendFile(path.resolve('login.html'));
 });
 
+app.get('/src/css/index.css', (req, res) => {
+    res.sendFile(path.resolve('src/css/index.css'), { cacheControl: true });
+});
+
 app.get('/src/css/ladestation.css', (req, res) => {
     res.sendFile(path.resolve('src/css/ladestation.css'), { cacheControl: true });
 });
