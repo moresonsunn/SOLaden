@@ -23,6 +23,16 @@ h1 {
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
     padding: 20px;
     width: 300px;
+    text-align: center;
+}
+
+.form login {
+    background: #383838;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+    padding: 20px;
+    width: 300px;
+    text-align: center;
 }
 
 label {
