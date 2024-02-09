@@ -169,7 +169,7 @@ app.get('/database', (req, res) => {
 
 app.post('/adduser', (req, res) => {
     const conn = openDatabase();
-    const nutzer_id = $"#userID"
+    const nutzer_id = req.body.nutzer_id;
     const passwort = req.body.passwort;
 
     const data = conn.prepare('INSERT INTO nutzer (nutzer_id, passwort) VALUES (?, ?)');
