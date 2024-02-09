@@ -24,7 +24,7 @@ function ersterTagDerWoche() {
 
     // Den Wochentag des aktuellen Datums erhalten (0 = Sonntag, 1 = Montag, ..., 6 = Samstag)
     var wochentag = heute.getDay() - 1;
-
+8
     // Den Zeitpunkt auf den ersten Tag der aktuellen Woche setzen
     var ersterTag = new Date(heute);
     ersterTag.setDate(heute.getDate() - wochentag);
