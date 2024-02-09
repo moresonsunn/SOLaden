@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="de">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -14,10 +14,10 @@
     <nav>
         <ul>
             <li><button id="dashboard-link" onclick="fetchData('http://localhost:5000/database', '#table-container', ['Nutzer_id', 'Station', 'Verbrauch', 'Datum'])">Dashboard</button></li>
-            <li><button id="verwalten-link" onclick="fetchData('http://localhost:5000/nutzer', '#table-container', ['ID'])">Benutzer verwalten</button></li>
-            <li><button id="einstellungen-link" onclick="fetchData('http://localhost:5000/nutzer', '#table-container', ['ID'])">Einstellungen</button></li>
-            <li><button id="addUserButton">Add User</button></li>
-            <li><button id="deleteUserButton">Delete User</button></li>
+            <li><button id="verwalten-link" onclick="fetchData('http://localhost:5000/nutzer', '#table-container', ['Nutzer_id'])">Benutzer verwalten</button></li>
+            <li><button id="einstellungen-link" onclick="fetchData('http://localhost:5000/nutzer', '#table-container', ['Nutzer_id']); hideAddUserForm()">Einstellungen</button></li>
+            <li><button id="addUserButton" onclick="showAddUserForm()" ondblclick="hideAddUserForm()">Add User</button></li>
+            <li><button id="deleteUserButton" onclick="showDeleteUserForm()">Delete User</button></li>
         </ul>
     </nav>
     
@@ -25,11 +25,30 @@
         <h2>Dashboard</h2>
         <p>Willkommen im Admin Panel.</p>
         <table id="table-container"></table>
+        <div id="addUserForm" style="display: none;">
+            <h3>Add User</h3>
+            <form id="userForm">
+                <label for="userID">User ID:</label>
+                <input type="text" id="userID" name="userID" required><br><br>
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" required><br><br>
+                <input type="submit" value="Submit">
+            </form>
+        </div>
+        <div id="deleteUserForm" style="display: none;">
+            <h3>Delete User</h3>
+            <form id="userForm">
+                <label for="userID">User ID:</label>
+                <input type="text" id="userID" name="userID" required><br><br>
+                <input type="submit" value="Submit">
+            </form>
+        </div>
     </main>
     <footer>
         &copy; 2024 Admin Panel. Alle Rechte vorbehalten.
     </footer>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.0.0/crypto-js.min.js"></script>
     <script>
         function fetchData(url, tableId, headers) {
             $.ajax({
@@ -58,33 +77,67 @@
             });
         }
     
-        function showAddDeleteButtons() {
-            $("#addUserButton, #deleteUserButton").show();
+        function showAddUserForm() {
+            $("#addUserForm").show();
         }
     
-        function hideAddDeleteButtons() {
-            $("#addUserButton, #deleteUserButton").hide();
+        function hideAddUserForm() {
+            $("#addUserForm").hide();
         }
-    
+
+        function showDeleteUserForm() {
+            $("#deleteUserForm").show();
+        }
+
+        function hideDeleteUserForm() {
+            $("#deleteUserForm").hide();
+        }
         function addUser() {
             // Implement your logic for adding a user here
-            conn = sqlite3.connect('SOLaden.db')
+            var userID = $("#userID").val();
+            var password = $("#password").val();
+            var hashedPassword = CryptoJS.SHA256(password).toString();
+            
+            // Make an AJAX request to add the user
+            $.ajax({
+                url: "http://localhost:5000/adduser",
+                type: "POST",
+                data: {
+                    userID: userID,
+                    password: hashedPassword
+                },
+                success: function (response) {
+                    // Handle the success response
+                    console.log("User added successfully!");
+                    alert("User added successfully!");
+                    hideAddUserForm();
+                    fetchData('http://localhost:5000/nutzer', '#table-container', ['Nutzer_id']);
+                },
+                error: function (xhr, status, error) {
+                    // Handle the error response
+                    console.log("Error: " + error);
+                    alert("Error: " + error);
+                }
+            });
         }
     
         function deleteUser() {
             // Implement your logic for deleting a user here
-            alert("Delete User function is not implemented yet!");
+            var userID = $("#userID").val();
+
         }
     
         $(document).ready(function () {
-            hideAddDeleteButtons();
+            hideAddUserForm();
     
             $("#einstellungen-link").click(function () {
                 fetchData('http://localhost:5000/nutzer', '#table-container', ['ID']);
-                showAddDeleteButtons();
+                hideAddUserForm();
+                hideDeleteUserForm();
             });
     
-            $("#addUserButton").click(function () {
+            $("#userForm").submit(function (event) {
+                event.preventDefault();
                 addUser();
             });
     

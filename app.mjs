@@ -163,6 +163,24 @@ app.get('/database', (req, res) => {
     });
 });
 
+app.post('/adduser', (req, res) => {
+    const conn = openDatabase();
+    const nutzer_id = $"#userID"
+    const passwort = req.body.passwort;
+
+    const data = conn.prepare('INSERT INTO nutzer (nutzer_id, passwort) VALUES (?, ?)');
+    data.run([nutzer_id, passwort], (err) => {
+        if (err) {
+            console.error(err);
+            res.status(500).send('Internal Server Error');
+        } else {
+            res.status(201).send('Created');
+        }
+        data.finalize();
+        conn.close();
+    });
+});
+
 app.get('/nutzer', (req, res) => {
     const conn = openDatabase();
     const offset = (currentPage - 1) * itemsPerPage;
