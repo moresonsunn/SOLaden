@@ -123,6 +123,10 @@ app.get('/src/css/login.css', (req, res) => {
     res.sendFile(path.resolve('src/css/login.css'), { cacheControl: true });
 });
 
+app.get('/src/logo/tbs1_logo.jpg', (req, res) => {
+    res.sendFile(path.resolve('src/logo/tbs1_logo.jpg'), { cacheControl: true });
+});
+
 app.post('/ladestation.html', (req, res) => {
     usernameData.username = req.body.username;
     usernameData.password = req.body.password;
