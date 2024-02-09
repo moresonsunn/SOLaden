@@ -259,7 +259,6 @@ app.get('/database/jahresverbrauch', (req, res) => {
     const offset = (currentPage - 1) * itemsPerPage;
 
     const data = conn.prepare('SELECT * FROM verbrauch WHERE nutzer_id = ? AND date LIKE ? ORDER BY date DESC LIMIT ? OFFSET ?');
-    
     data.all([usernameData.username, date,itemsPerPage,offset], (err, rows) => {
         if (err) {
             console.error(err);
