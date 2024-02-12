@@ -6,7 +6,7 @@ import bcrypt from 'bcrypt';
 
 const app = express();
 const port = 5500;
-const ip = '192.168.2.100';
+const ip = 'localhost';
 
 app.use(cors());
 app.use(express.static('public'));
