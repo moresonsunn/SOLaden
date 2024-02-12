@@ -15,9 +15,8 @@
         <ul>
             <li><button id="dashboard-link" onclick="fetchData('http://localhost:5000/database', '#table-container', ['Nutzer_id', 'Station', 'Verbrauch', 'Datum'])">Dashboard</button></li>
             <li><button id="verwalten-link" onclick="fetchData('http://localhost:5000/nutzer', '#table-container', ['Nutzer_id'])">Benutzer verwalten</button></li>
-            <li><button id="einstellungen-link" onclick="fetchData('http://localhost:5000/nutzer', '#table-container', ['Nutzer_id']); hideAddUserForm()">Einstellungen</button></li>
             <li><button id="addUserButton" onclick="showAddUserForm()" ondblclick="hideAddUserForm()">Add User</button></li>
-            <li><button id="deleteUserButton" onclick="showDeleteUserForm()">Delete User</button></li>
+            <li><button id="deleteUserButton" onclick="showDeleteUserForm()" ondblclick="hideDeleteUserForm()">Delete User</button></li>
         </ul>
     </nav>
     
@@ -37,9 +36,9 @@
         </div>
         <div id="deleteUserForm" style="display: none;">
             <h3>Delete User</h3>
-            <form id="userForm">
-                <label for="userID">User ID:</label>
-                <input type="text" id="userID" name="userID" required><br><br>
+            <form id="userForm2">
+                <label for="userID2">User ID:</label>
+                <input type="text" id="userID2" name="userID2" required><br><br>
                 <input type="submit" value="Submit">
             </form>
         </div>
@@ -48,7 +47,6 @@
         &copy; 2024 Admin Panel. Alle Rechte vorbehalten.
     </footer>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.0.0/crypto-js.min.js"></script>
     <script>
         function fetchData(url, tableId, headers) {
             $.ajax({
@@ -93,28 +91,26 @@
             $("#deleteUserForm").hide();
         }
         function addUser() {
-            // Implement your logic for adding a user here
             var userID = $("#userID").val();
             var password = $("#password").val();
-            var hashedPassword = CryptoJS.SHA256(password).toString();
             
-            // Make an AJAX request to add the user
+
             $.ajax({
                 url: "http://localhost:5000/adduser",
                 type: "POST",
                 data: {
                     userID: userID,
-                    password: hashedPassword
+                    password: password
                 },
                 success: function (response) {
-                    // Handle the success response
+
                     console.log("User added successfully!");
                     alert("User added successfully!");
                     hideAddUserForm();
                     fetchData('http://localhost:5000/nutzer', '#table-container', ['Nutzer_id']);
                 },
                 error: function (xhr, status, error) {
-                    // Handle the error response
+
                     console.log("Error: " + error);
                     alert("Error: " + error);
                 }
@@ -122,31 +118,43 @@
         }
     
         function deleteUser() {
-            // Implement your logic for deleting a user here
-            var userID = $("#userID").val();
+            var userID = $("#userID2").val();
+
+            $.ajax({
+                url: "http://localhost:5000/deleteuser",
+                type: "POST",
+                data: {
+                    userID: userID,
+                },
+                success: function (response) {
+
+                    console.log("User deleted successfully!");
+                    alert("User deleted successfully!");
+                    hideAddUserForm();
+                    fetchData('http://localhost:5000/nutzer', '#table-container', ['Nutzer_id']);
+                },
+                error: function (xhr, status, error) {
+
+                    console.log("Error: " + error);
+                    alert("Error: " + error);
+                }
+            });
 
         }
     
         $(document).ready(function () {
             hideAddUserForm();
-    
-            $("#einstellungen-link").click(function () {
-                fetchData('http://localhost:5000/nutzer', '#table-container', ['ID']);
-                hideAddUserForm();
-                hideDeleteUserForm();
-            });
-    
+            hideDeleteUserForm();
             $("#userForm").submit(function (event) {
                 event.preventDefault();
                 addUser();
             });
     
-            $("#deleteUserButton").click(function () {
+            $("#userForm2").submit(function (event) {
+                event.preventDefault();
                 deleteUser();
             });
         });
     </script>
-    
-    
 </body>
 </html>

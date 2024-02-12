@@ -44,9 +44,32 @@ class LoginScreen(BoxLayout):
 
         conn.close()
 
+class LadestationenScreen(BoxLayout):
+    def __init__(self, **kwargs):
+        super(LadestationenScreen, self).__init__(**kwargs)
+        
+        self.orientation = 'vertical'
+        self.padding = 50
+
+        self.ladestationen_label = Label(text='Ladestationen')
+        self.add_widget(self.ladestationen_label)
+
+        self.ladestationen_button = Button(text='Ladestationen', on_press=self.on_ladestationen)
+        self.add_widget(self.ladestationen_button)
+
+    def on_ladestationen(self, instance):
+        print('Ladestationen')
+
 class MyApp(App):
     def build(self):
         return LoginScreen()
+    
+    def change_screen(self, screen_name):
+        if screen_name == 'ladestationen':
+            self.root = LadestationenScreen()
+        else:
+            self.root = LoginScreen()
+
 
 if __name__ == '__main__':
     MyApp().run()

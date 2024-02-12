@@ -2,10 +2,11 @@ import express from 'express';
 import path from 'path';
 import sqlite3 from 'sqlite3';
 import cors from 'cors';
+import bcrypt from 'bcrypt';
 
 const app = express();
-const port = 5000;
-const ip = 'localhost';
+const port = 5500;
+const ip = '192.168.2.100';
 
 app.use(cors());
 app.use(express.static('public'));
@@ -18,11 +19,12 @@ let usernameData = {
     username: '',
     password: ''
 };
+
 function ersterTagDerWoche() {
     // Aktuelles Datum erhalten
     var heute = new Date();
 
-    // Den Wochentag des aktuellen Datums erhalten (0 = Sonntag, 1 = Montag, ..., 6 = Samstag)
+    // Den Wochentag des aktuellen Datums erhalten
     var wochentag = heute.getDay() - 1;
 8
     // Den Zeitpunkt auf den ersten Tag der aktuellen Woche setzen
@@ -95,6 +97,10 @@ function openDatabase() {
     return conn;
 }
 
+const hashPassword = (password) => bcrypt.hashSync(password, 10);
+
+const comparePassword = (password, hashedPassword) => bcrypt.compareSync(password, hashedPassword);
+
 app.get('/', (req, res) => {
     res.sendFile(path.resolve('index.html'));
 });
@@ -127,16 +133,19 @@ app.get('/src/logo/tbs1_logo.jpg', (req, res) => {
     res.sendFile(path.resolve('src/logo/tbs1_logo.jpg'), { cacheControl: true });
 });
 
+// ...
+
 app.post('/ladestation.html', (req, res) => {
     usernameData.username = req.body.username;
-    usernameData.password = req.body.password;
+    const password = req.body.password;
     const conn = openDatabase();
 
-    conn.get('SELECT * FROM nutzer WHERE nutzer_id = ? AND passwort = ?', [usernameData.username, usernameData.password], (err, row) => {
+    conn.get('SELECT passwort FROM nutzer WHERE nutzer_id = ? and passwort = ?', [usernameData.username,password], (err, row) => {
         if (err) {
             console.error(err);
             res.status(500).send('Internal Server Error');
         } else if (row) {
+        if (comparePassword(password, row.passwort)) {
             if (usernameData.username === '0000') {
                 res.sendFile(path.resolve('adminpanel.html'));
             } else {
@@ -147,6 +156,8 @@ app.post('/ladestation.html', (req, res) => {
             res.status(401).send('Unauthorized');
             console.log(req.body);
         }
+        conn.close();
+    }
     });
 });
 
@@ -168,17 +179,36 @@ app.get('/database', (req, res) => {
 });
 
 app.post('/adduser', (req, res) => {
+    const username = req.body.userID;
+    const password = req.body.password;
+    const hashedPassword = hashPassword(password);
     const conn = openDatabase();
-    const nutzer_id = req.body.nutzer_id;
-    const passwort = req.body.passwort;
 
     const data = conn.prepare('INSERT INTO nutzer (nutzer_id, passwort) VALUES (?, ?)');
-    data.run([nutzer_id, passwort], (err) => {
+    data.run([username, hashedPassword], (err) => {
         if (err) {
             console.error(err);
             res.status(500).send('Internal Server Error');
         } else {
             res.status(201).send('Created');
+        }
+        data.finalize();
+        conn.close();
+    });
+});
+
+
+app.post('/deleteuser', (req, res) => {
+    const conn = openDatabase();
+    usernameData.username = req.body.userID;
+
+    const data = conn.prepare('DELETE FROM nutzer WHERE nutzer_id = ?');
+    data.run([usernameData.username], (err) => {
+        if (err) {
+            console.error(err);
+            res.status(500).send('Internal Server Error');
+        } else {
+            res.status(201).send('Deleted');
         }
         data.finalize();
         conn.close();

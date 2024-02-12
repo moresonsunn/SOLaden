@@ -1,11 +1,11 @@
 body {
+    display: flex;
     background: #282c34;
     color: #ffffff;
     font-family: 'Arial', sans-serif;
     margin: 0;
     padding: 0;
     display: flex;
-    align-items: center;
     justify-content: center;
     height: 100vh;
 }
@@ -36,7 +36,7 @@ h1 {
 }
 
 label {
-    display: block;
+    display: flex;
     margin: 15px 0 5px;
     font-size: 1.2em;
     color: #61dafb;
@@ -54,6 +54,7 @@ input {
 }
 
 input[type="submit"] {
+    display: flex;
     background: linear-gradient(45deg, #61dafb, #45aaf2);
     color: #ffffff;
     padding: 12px;

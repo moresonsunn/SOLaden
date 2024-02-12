@@ -24,7 +24,6 @@ h1 {
   padding: 20px;
   width: 300px;
   text-align: right;
-  margin: 0 auto;
 }
 
 label {
@@ -32,6 +31,7 @@ label {
   margin: 15px 0 5px;
   font-size: 1.2em;
   color: #61dafb;
+  text-align: left;
 }
 
 input {
