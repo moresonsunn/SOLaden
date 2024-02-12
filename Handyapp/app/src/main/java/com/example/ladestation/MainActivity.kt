@@ -1,4 +1,5 @@
 // MainActivity.kt
+package com.example.ladestation
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
@@ -6,13 +7,12 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import okhttp3.*
 import java.io.IOException
-import com.example.ladestation.R
 
-class appasdasd : AppCompatActivity() {
+class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.xml.app)
+        setContentView(R.xml.activity_main)
 
         val editTextUsername = findViewById<EditText>(R.id.editTextUsername)
         val editTextPassword = findViewById<EditText>(R.id.editTextPassword)
@@ -27,7 +27,7 @@ class appasdasd : AppCompatActivity() {
     }
 
     private fun login(username: String, password: String) {
-        val url = "http://192.168.2.100:5500/ladestation.html" // Hier deine Server-IP eintragen
+        val url = "http://192.168.2.100:5500/login.html" // Hier deine Server-IP eintragen
 
         val client = OkHttpClient()
 
