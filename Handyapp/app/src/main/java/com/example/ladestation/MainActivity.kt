@@ -1,20 +1,18 @@
 // MainActivity.kt
-
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import okhttp3.*
-import org.json.JSONObject
 import java.io.IOException
 import com.example.ladestation.R
 
-class MainActivity : AppCompatActivity() {
+class appasdasd : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.xml.activity_main)
+        setContentView(R.xml.app)
 
         val editTextUsername = findViewById<EditText>(R.id.editTextUsername)
         val editTextPassword = findViewById<EditText>(R.id.editTextPassword)
