@@ -14,7 +14,7 @@
     <nav>
         <ul>
             <li><button id="dashboard-link" onclick="fetchData('http://localhost:5000/database', '#table-container', ['Nutzer_id', 'Station', 'Verbrauch', 'Datum'])">Dashboard</button></li>
-            <li><button id="verwalten-link" onclick="fetchData('http://localhost:5000/nutzer', '#table-container', ['Nutzer_id'])">Benutzer verwalten</button></li>
+            <li><button id="benutzer-verwalten" onclick="fetchData('http://localhost:5000/nutzer', '#table-container', ['Nutzer_id'])">Benutzer verwalten</button></li>
             <li><button id="addUserButton" onclick="showAddUserForm()" ondblclick="hideAddUserForm()">Add User</button></li>
             <li><button id="deleteUserButton" onclick="showDeleteUserForm()" ondblclick="hideDeleteUserForm()">Delete User</button></li>
         </ul>

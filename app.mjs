@@ -2,10 +2,10 @@ import express from 'express';
 import path from 'path';
 import sqlite3 from 'sqlite3';
 import cors from 'cors';
-import bcrypt from 'bcrypt';
+import crypto from 'crypto';
 
 const app = express();
-const port = 5500;
+const port = 5000;
 const ip = 'localhost';
 
 app.use(cors());
@@ -97,9 +97,9 @@ function openDatabase() {
     return conn;
 }
 
-const hashPassword = (password) => bcrypt.hashSync(password, 10);
-
-const comparePassword = (password, hashedPassword) => bcrypt.compareSync(password, hashedPassword);
+function hashPassword(password) {
+    return crypto.createHash('sha256').update(password).digest('hex');
+}
 
 app.get('/', (req, res) => {
     res.sendFile(path.resolve('index.html'));
@@ -140,12 +140,12 @@ app.post('/ladestation.html', (req, res) => {
     const password = req.body.password;
     const conn = openDatabase();
 
-    conn.get('SELECT passwort FROM nutzer WHERE nutzer_id = ? and passwort = ?', [usernameData.username,password], (err, row) => {
+    conn.get('SELECT passwort FROM nutzer WHERE nutzer_id = ? and passwort = ?', [usernameData.username], (err, row) => {
         if (err) {
             console.error(err);
             res.status(500).send('Internal Server Error');
         } else if (row) {
-        if (comparePassword(password, row.passwort)) {
+        if (row.passwort === hashPassword(password)) {
             if (usernameData.username === '0000') {
                 res.sendFile(path.resolve('adminpanel.html'));
             } else {
