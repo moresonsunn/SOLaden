@@ -142,7 +142,7 @@ app.post('/ladestation.html', (req, res) => {
     const password = req.body.password;
     const conn = openDatabase();
 
-    conn.get('SELECT passwort FROM nutzer WHERE nutzer_id = ? and passwort = ?', [usernameData.username,hashedPassword], (err, row) => {
+    conn.get('SELECT passwort FROM nutzer WHERE nutzer_id = ? and passwort = ?', [usernameData.username,usernameData.password], (err, row) => {
         if (err) {
             console.error(err);
             res.status(500).send('Internal Server Error');
