@@ -138,15 +138,15 @@ app.get('/src/logo/tbs1_logo.jpg', (req, res) => {
 app.post('/ladestation.html', (req, res) => {
     usernameData.username = req.body.username;
     usernameData.password = req.body.password;
+    const hashedPassword = hashPassword(usernameData.password);
     const password = req.body.password;
     const conn = openDatabase();
 
-    conn.get('SELECT passwort FROM nutzer WHERE nutzer_id = ? and passwort = ?', [usernameData.username], (err, row) => {
+    conn.get('SELECT passwort FROM nutzer WHERE nutzer_id = ? and passwort = ?', [usernameData.username,hashedPassword], (err, row) => {
         if (err) {
             console.error(err);
             res.status(500).send('Internal Server Error');
         } else if (row) {
-        if (row.passwort === hashPassword(password)) {
             if (usernameData.username === '0000') {
                 res.sendFile(path.resolve('adminpanel.html'));
             } else {
@@ -158,7 +158,6 @@ app.post('/ladestation.html', (req, res) => {
             console.log(req.body);
         }
         conn.close();
-    }
     });
 });
 
