@@ -137,6 +137,7 @@ app.get('/src/logo/tbs1_logo.jpg', (req, res) => {
 
 app.post('/ladestation.html', (req, res) => {
     usernameData.username = req.body.username;
+    usernameData.password = req.body.password;
     const password = req.body.password;
     const conn = openDatabase();
 
