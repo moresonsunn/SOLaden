@@ -18,7 +18,7 @@ let currentPage = 1;
 let usernameData = {
     username: '',
     password: ''
-};
+}; 
 
 function ersterTagDerWoche() {
     // Aktuelles Datum erhalten
@@ -110,7 +110,7 @@ app.get('/main.js', (req, res) => {
 });
 
 app.post('/login.html', (req, res) => {
-    res.sendFile(path.resolve('login.html'));
+    res.sendFile(path.resolve('login.html')); 
 });
 
 app.get('/src/css/index.css', (req, res) => {
@@ -139,7 +139,6 @@ app.post('/ladestation.html', (req, res) => {
     usernameData.username = req.body.username;
     usernameData.password = req.body.password;
     const hashedPassword = hashPassword(usernameData.password);
-    const password = req.body.password;
     const conn = openDatabase();
 
     conn.get('SELECT passwort FROM nutzer WHERE nutzer_id = ? and passwort = ?', [usernameData.username,usernameData.password], (err, row) => {
@@ -156,6 +155,7 @@ app.post('/ladestation.html', (req, res) => {
         } else {
             res.status(401).send('Unauthorized');
             console.log(req.body);
+            console.log(hashedPassword);
         }
         conn.close();
     });

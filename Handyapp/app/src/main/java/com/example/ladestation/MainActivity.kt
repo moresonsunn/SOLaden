@@ -32,7 +32,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun login(username: String, password: String) {
-        val url = "http://localhost/login.html" 
+        val url = "http://localhost:5000/login.html"
 
         val client = OkHttpClient()
 

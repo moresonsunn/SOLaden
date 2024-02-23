@@ -17,6 +17,9 @@
             <li><button id="benutzer-verwalten" onclick="fetchData('http://localhost:5000/nutzer', '#table-container', ['Nutzer_id'])">Benutzer verwalten</button></li>
             <li><button id="addUserButton" onclick="toggleForm('#addUserForm')">Add User</button></li>
             <li><button id="deleteUserButton" onclick="toggleForm('#deleteUserForm')">Delete User</button></li>
+            <li><button id="prevButton" onclick="navigatePage('prev')">Prev</button></li>
+            <li><button id="nextButton" onclick="navigatePage('next')">Next</button></li>
+            <li><button id="filterDashboard" onclick="filterDashboard()">Dashboard filtern</button></li>
         </ul>
     </nav>
     
@@ -123,6 +126,18 @@
                     alert("Error: " + error);
                 }
             });
+        }
+        
+        function navigatePage(direction) {
+            // Implement the logic to navigate between pages (prev/next)
+            console.log("Navigating to: " + direction + " page");
+            // Placeholder for actual navigation logic
+        }
+        
+        function filterDashboard() {
+            // Implement the logic to filter the dashboard based on user input
+            console.log("Filtering the dashboard");
+            // Placeholder for actual filtering logic
         }
     
         $(document).ready(function () {
