@@ -37,8 +37,9 @@ class LoginScreen(BoxLayout):
         result = cursor.fetchone()
 
         if result:
-            #url = 
+            url = "https://localhost:5000/ladestation.html"
             print('Erfolgreich angemeldet!')
+            self.parent.change_screen('ladestationen')
         else:
             print('Falscher Benutzername oder falsches Passwort.')
 

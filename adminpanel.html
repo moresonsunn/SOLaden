@@ -4,27 +4,27 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Panel</title>
-    <link rel="stylesheet" type="text/css" href="src/css/adminpanel.css" media="screen">
+    <link rel="stylesheet" href="src/css/adminpanel.css" media="screen">
 </head>
 <body>
     <header>
-        <img src="/src/logo/tbs1_logo.jpg" alt="TBS1 Logo" style="width: 150px;height: 50px;" class="float-left logo"/>
+        <img src="/src/logo/tbs1_logo.jpg" alt="TBS1 Logo" class="logo"/>
         <h1>Admin Panel</h1>
     </header>
     <nav>
         <ul>
             <li><button id="dashboard-link" onclick="fetchData('http://localhost:5000/database', '#table-container', ['Nutzer_id', 'Station', 'Verbrauch', 'Datum'])">Dashboard</button></li>
             <li><button id="benutzer-verwalten" onclick="fetchData('http://localhost:5000/nutzer', '#table-container', ['Nutzer_id'])">Benutzer verwalten</button></li>
-            <li><button id="addUserButton" onclick="showAddUserForm()" ondblclick="hideAddUserForm()">Add User</button></li>
-            <li><button id="deleteUserButton" onclick="showDeleteUserForm()" ondblclick="hideDeleteUserForm()">Delete User</button></li>
+            <li><button id="addUserButton" onclick="toggleForm('#addUserForm')">Add User</button></li>
+            <li><button id="deleteUserButton" onclick="toggleForm('#deleteUserForm')">Delete User</button></li>
         </ul>
     </nav>
     
     <main>
         <h2>Dashboard</h2>
         <p>Willkommen im Admin Panel.</p>
-        <table id="table-container"></table>
-        <div id="addUserForm" style="display: none;">
+        <div id="table-container"></div>
+        <div id="addUserForm" class="form" style="display: none;">
             <h3>Add User</h3>
             <form id="userForm">
                 <label for="userID">User ID:</label>
@@ -34,7 +34,7 @@
                 <input type="submit" value="Submit">
             </form>
         </div>
-        <div id="deleteUserForm" style="display: none;">
+        <div id="deleteUserForm" class="form" style="display: none;">
             <h3>Delete User</h3>
             <form id="userForm2">
                 <label for="userID2">User ID:</label>
@@ -54,20 +54,20 @@
                 type: "GET",
                 dataType: "json",
                 success: function (data) {
-                    var table = $(tableId);
-                    table.empty();
-                    table.append("<tr>");
+                    var table = $("<table></table>");
+                    var thead = $("<tr></tr>");
                     $.each(headers, function (index, value) {
-                        table.append("<th>" + value + "</th>");
+                        thead.append("<th>" + value + "</th>");
                     });
-                    table.append("</tr>");
+                    table.append(thead);
                     $.each(data, function (index, value) {
-                        table.append("<tr>");
+                        var row = $("<tr></tr>");
                         $.each(headers, function (headerIndex, headerValue) {
-                            table.append("<td>" + value[headerValue.toLowerCase()] + "</td>");
+                            row.append("<td>" + value[headerValue.toLowerCase()] + "</td>");
                         });
-                        table.append("</tr>");
+                        table.append(row);
                     });
+                    $(tableId).html(table);
                 },
                 error: function (xhr, status, error) {
                     console.log("Error: " + error);
@@ -75,26 +75,14 @@
             });
         }
     
-        function showAddUserForm() {
-            $("#addUserForm").show();
-        }
-    
-        function hideAddUserForm() {
-            $("#addUserForm").hide();
+        function toggleForm(formId) {
+            $(formId).toggle();
         }
 
-        function showDeleteUserForm() {
-            $("#deleteUserForm").show();
-        }
-
-        function hideDeleteUserForm() {
-            $("#deleteUserForm").hide();
-        }
         function addUser() {
             var userID = $("#userID").val();
             var password = $("#password").val();
             
-
             $.ajax({
                 url: "http://localhost:5000/adduser",
                 type: "POST",
@@ -103,14 +91,12 @@
                     password: password
                 },
                 success: function (response) {
-
                     console.log("User added successfully!");
                     alert("User added successfully!");
-                    hideAddUserForm();
+                    $("#addUserForm").hide();
                     fetchData('http://localhost:5000/nutzer', '#table-container', ['Nutzer_id']);
                 },
                 error: function (xhr, status, error) {
-
                     console.log("Error: " + error);
                     alert("Error: " + error);
                 }
@@ -127,24 +113,19 @@
                     userID: userID,
                 },
                 success: function (response) {
-
                     console.log("User deleted successfully!");
                     alert("User deleted successfully!");
-                    hideAddUserForm();
+                    $("#deleteUserForm").hide();
                     fetchData('http://localhost:5000/nutzer', '#table-container', ['Nutzer_id']);
                 },
                 error: function (xhr, status, error) {
-
                     console.log("Error: " + error);
                     alert("Error: " + error);
                 }
             });
-
         }
     
         $(document).ready(function () {
-            hideAddUserForm();
-            hideDeleteUserForm();
             $("#userForm").submit(function (event) {
                 event.preventDefault();
                 addUser();

@@ -1,5 +1,6 @@
 // MainActivity.kt
 package com.example.ladestation
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
@@ -19,15 +20,19 @@ class MainActivity : AppCompatActivity() {
         val buttonLogin = findViewById<Button>(R.id.buttonLogin)
 
         buttonLogin.setOnClickListener {
-            val username = editTextUsername.text.toString()
-            val password = editTextPassword.text.toString()
+            val username = editTextUsername.text.toString().trim()
+            val password = editTextPassword.text.toString().trim()
 
-            login(username, password)
+            if (username.isNotEmpty() && password.isNotEmpty()) {
+                login(username, password)
+            } else {
+                Toast.makeText(applicationContext, "Bitte Benutzername und Passwort eingeben!", Toast.LENGTH_SHORT).show()
+            }
         }
     }
 
     private fun login(username: String, password: String) {
-        val url = "http://192.168.2.100:5500/login.html" // Hier deine Server-IP eintragen
+        val url = "http://localhost/login.html" 
 
         val client = OkHttpClient()
 
@@ -45,7 +50,7 @@ class MainActivity : AppCompatActivity() {
             override fun onFailure(call: Call, e: IOException) {
                 e.printStackTrace()
                 runOnUiThread {
-                    Toast.makeText(applicationContext, "Login fehlgeschlagen!", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(applicationContext, "Netzwerkfehler beim Anmelden!", Toast.LENGTH_SHORT).show()
                 }
             }
 
@@ -54,7 +59,12 @@ class MainActivity : AppCompatActivity() {
                 runOnUiThread {
                     if (response.isSuccessful && responseData == "Authorized") {
                         Toast.makeText(applicationContext, "Anmeldung erfolgreich!", Toast.LENGTH_SHORT).show()
-                        // Hier kannst du die nächste Aktivität starten oder andere Aktionen ausführen
+                        // Weiterleitung zur nächsten Aktivität bei erfolgreicher Anmeldung
+                        val intent = Intent(this@MainActivity, LadestationenActivity::class.java).apply {
+                            putExtra("username", username)
+                        }
+                        startActivity(intent)
+                        finish()
                     } else {
                         Toast.makeText(applicationContext, "Falscher Benutzername oder Passwort!", Toast.LENGTH_SHORT).show()
                     }
