@@ -8,12 +8,12 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import okhttp3.*
 import java.io.IOException
+import com.example.ladestation.R
 
 class MainActivity : AppCompatActivity() {
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.xml.activity_main)
+        setContentView(R.layout.activity_main)
 
         val editTextUsername = findViewById<EditText>(R.id.editTextUsername)
         val editTextPassword = findViewById<EditText>(R.id.editTextPassword)
@@ -60,7 +60,7 @@ class MainActivity : AppCompatActivity() {
                     if (response.isSuccessful && responseData == "Authorized") {
                         Toast.makeText(applicationContext, "Anmeldung erfolgreich!", Toast.LENGTH_SHORT).show()
                         // Weiterleitung zur nächsten Aktivität bei erfolgreicher Anmeldung
-                        val intent = Intent(this@MainActivity, LadestationenActivity::class.java).apply {
+                        val intent = Intent(this@MainActivity, MainActivity::class.java).apply {
                             putExtra("username", username)
                         }
                         startActivity(intent)

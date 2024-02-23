@@ -80,7 +80,7 @@ function aktuellerMonatAlsZahl() {
   
     // Variable zurückgeben
     return aktuellerMonat;
-}
+} 
 function aktuellesJahrAlsZahl() {
     // Aktuelles Datum erstellen
     var aktuellesDatum = new Date();
