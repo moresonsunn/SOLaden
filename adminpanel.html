@@ -13,10 +13,11 @@
     </header>
     <nav>
         <ul>
-            <li><button id="dashboard-link" onclick="fetchData('http://localhost:5000/database', '#table-container', ['Nutzer_id', 'Station', 'Verbrauch', 'Datum'])">Dashboard</button></li>
-            <li><button id="benutzer-verwalten" onclick="fetchData('http://localhost:5000/nutzer', '#table-container', ['Nutzer_id'])">Benutzer verwalten</button></li>
-            <li><button id="addUserButton" onclick="toggleForm('#addUserForm')">Add User</button></li>
-            <li><button id="deleteUserButton" onclick="toggleForm('#deleteUserForm')">Delete User</button></li>
+            <li><button id="dashboard-link" onclick="fetchData('http://localhost:5000/database', '#table-container', ['Nutzer_id', 'Station', 'Verbrauch', 'Datum']); toggleForm('#dashboardForm'); hideFormsExcept('#dashboardForm');">Dashboard</button></li>
+            <li><button id="benutzer-verwalten" onclick="fetchData('http://localhost:5000/nutzer', '#table-container', ['Nutzer_id']); toggleForm('#benutzerForm'); hideFormsExcept('#benutzerForm');">Benutzer verwalten</button></li>
+            <li><button id="addUserButton" onclick="toggleForm('#
+            '); hideFormsExcept('#addUserForm');">Add User</button></li>
+            <li><button id="deleteUserButton" onclick="toggleForm('#deleteUserForm'); hideFormsExcept('#deleteUserForm');">Delete User</button></li>
             <li><button id="prevButton" onclick="navigatePage('prev')">Prev</button></li>
             <li><button id="nextButton" onclick="navigatePage('next')">Next</button></li>
             <li><button id="filterDashboard" onclick="filterDashboard()">Dashboard filtern</button></li>
@@ -82,6 +83,15 @@
             $(formId).toggle();
         }
 
+        function hideFormsExcept(activeFormId) {
+            const forms = ['#dashboardForm', '#benutzerForm', '#addUserForm', '#deleteUserForm'];
+            forms.forEach(function(formId) {
+                if(formId !== activeFormId) {
+                    $(formId).hide();
+                }
+            });
+        }
+
         function addUser() {
             var userID = $("#userID").val();
             var password = $("#password").val();
@@ -129,15 +139,13 @@
         }
         
         function navigatePage(direction) {
-            // Implement the logic to navigate between pages (prev/next)
             console.log("Navigating to: " + direction + " page");
-            // Placeholder for actual navigation logic
+            fetchData('http://localhost:5000/database', '#table-container', ['Nutzer_id', 'Station', 'Verbrauch', 'Datum']);
+            fetchData('http://localhost:5000/nutzer', '#table-container', ['Nutzer_id']);
         }
         
         function filterDashboard() {
-            // Implement the logic to filter the dashboard based on user input
             console.log("Filtering the dashboard");
-            // Placeholder for actual filtering logic
         }
     
         $(document).ready(function () {

@@ -6,11 +6,13 @@ import crypto from 'crypto';
 
 const app = express();
 const port = 5000;
-const ip = 'localhost';
+const hostname = 'localhost';
+const domainName = 'SOLaden_Tbs1';
 
 app.use(cors());
 app.use(express.static('public'));
 app.use(express.urlencoded({ extended: true }));
+
 
 const itemsPerPage = 10;
 let currentPage = 1;
@@ -26,7 +28,7 @@ function ersterTagDerWoche() {
 
     // Den Wochentag des aktuellen Datums erhalten
     var wochentag = heute.getDay() - 1;
-8
+
     // Den Zeitpunkt auf den ersten Tag der aktuellen Woche setzen
     var ersterTag = new Date(heute);
     ersterTag.setDate(heute.getDate() - wochentag);
@@ -338,5 +340,5 @@ app.get('/database/prev', (req, res) => {
 });
 
 app.listen(port, () => {
-    console.log(`Server running at http://${ip}:${port}/`);
+    console.log(`Server running at http://${hostname}:${port}/`);
 });
