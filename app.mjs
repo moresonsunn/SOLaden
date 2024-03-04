@@ -7,7 +7,6 @@ import crypto from 'crypto';
 const app = express();
 const port = 5000;
 const hostname = 'localhost';
-const domainName = 'SOLaden_Tbs1';
 
 app.use(cors());
 app.use(express.static('public'));
