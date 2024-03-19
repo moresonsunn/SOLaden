@@ -9,8 +9,6 @@ const app = express();
 const host = config.host;
 const port = config.port;
 
-
-
 app.use(cors({ origin: true }));
 app.use(express.static('public'));
 app.use(express.urlencoded({ extended: true }));
@@ -21,7 +19,7 @@ let currentPage = 1;
 let usernameData = {
     username: '',
     password: ''
-};
+}; 
 
 function ersterTagDerWoche() {
     // Aktuelles Datum erhalten
@@ -29,7 +27,7 @@ function ersterTagDerWoche() {
 
     // Den Wochentag des aktuellen Datums erhalten
     var wochentag = heute.getDay() - 1;
-8
+
     // Den Zeitpunkt auf den ersten Tag der aktuellen Woche setzen
     var ersterTag = new Date(heute);
     ersterTag.setDate(heute.getDate() - wochentag);
@@ -83,7 +81,7 @@ function aktuellerMonatAlsZahl() {
   
     // Variable zurückgeben
     return aktuellerMonat;
-}
+} 
 function aktuellesJahrAlsZahl() {
     // Aktuelles Datum erstellen
     var aktuellesDatum = new Date();
@@ -113,7 +111,7 @@ app.get('/main.js', (req, res) => {
 });
 
 app.post('/login.html', (req, res) => {
-    res.sendFile(path.resolve('login.html'));
+    res.sendFile(path.resolve('login.html')); 
 });
 
 app.get('/src/css/index.css', (req, res) => {
@@ -144,7 +142,6 @@ app.post('/ladestation.html', (req, res) => {
     usernameData.username = req.body.username;
     usernameData.password = req.body.password;
     const hashedPassword = hashPassword(usernameData.password);
-    const password = req.body.password;
     const conn = openDatabase();
 
     conn.get('SELECT passwort FROM nutzer WHERE nutzer_id = ? and passwort = ?', [usernameData.username,usernameData.password], (err, row) => {
@@ -161,6 +158,7 @@ app.post('/ladestation.html', (req, res) => {
         } else {
             res.status(401).send('Unauthorized');
             console.log(req.body);
+            console.log(hashedPassword);
         }
         conn.close();
     });
