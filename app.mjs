@@ -3,12 +3,15 @@ import path from 'path';
 import sqlite3 from 'sqlite3';
 import cors from 'cors';
 import crypto from 'crypto';
+import config from './src/conf/config.json' assert { type: 'json' };
 
 const app = express();
-const port = 5000;
-const ip = 'localhost';
+const host = config.host;
+const port = config.port;
 
-app.use(cors());
+
+
+app.use(cors({ origin: true }));
 app.use(express.static('public'));
 app.use(express.urlencoded({ extended: true }));
 
@@ -133,7 +136,9 @@ app.get('/src/logo/tbs1_logo.jpg', (req, res) => {
     res.sendFile(path.resolve('src/logo/tbs1_logo.jpg'), { cacheControl: true });
 });
 
-// ...
+app.get('/src/conf/config.json', (req, res) => {
+    res.sendFile(path.resolve('src/conf/config.json'), { cacheControl: true });
+});
 
 app.post('/ladestation.html', (req, res) => {
     usernameData.username = req.body.username;
@@ -338,5 +343,5 @@ app.get('/database/prev', (req, res) => {
 });
 
 app.listen(port, () => {
-    console.log(`Server running at http://${ip}:${port}/`);
+    console.log(`Server running at http://${host}:${port}/`);
 });

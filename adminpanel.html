@@ -11,10 +11,18 @@
         <img src="/src/logo/tbs1_logo.jpg" alt="TBS1 Logo" class="logo"/>
         <h1>Admin Panel</h1>
     </header>
+    <script>
+        var host, port;
+        $.getJSON("/src/conf/config.json", function(data) {
+            host = data.host;
+            port = data.port;
+            console.log(host,port);
+        });
+    </script>
     <nav>
         <ul>
-            <li><button id="dashboard-link" onclick="fetchData('http://localhost:5000/database', '#table-container', ['Nutzer_id', 'Station', 'Verbrauch', 'Datum'])">Dashboard</button></li>
-            <li><button id="benutzer-verwalten" onclick="fetchData('http://localhost:5000/nutzer', '#table-container', ['Nutzer_id'])">Benutzer verwalten</button></li>
+            <li><button id="dashboard-link" onclick="fetchData('http://' + host + ':' + port + '/database', '#table-container', ['Nutzer_id', 'Station', 'Verbrauch', 'Datum'])">Dashboard</button></li>
+            <li><button id="benutzer-verwalten" onclick="fetchData('http://' + host + ':' + port + '/nutzer', '#table-container', ['Nutzer_id'])">Benutzer verwalten</button></li>
             <li><button id="addUserButton" onclick="toggleForm('#addUserForm')">Add User</button></li>
             <li><button id="deleteUserButton" onclick="toggleForm('#deleteUserForm')">Delete User</button></li>
         </ul>
@@ -84,7 +92,7 @@
             var password = $("#password").val();
             
             $.ajax({
-                url: "http://localhost:5000/adduser",
+                url: "http://" + host + ":" + port + "/adduser",
                 type: "POST",
                 data: {
                     userID: userID,
@@ -94,7 +102,7 @@
                     console.log("User added successfully!");
                     alert("User added successfully!");
                     $("#addUserForm").hide();
-                    fetchData('http://localhost:5000/nutzer', '#table-container', ['Nutzer_id']);
+                    fetchData('http://' + host + ':' + port + '/nutzer', '#table-container', ['Nutzer_id']);
                 },
                 error: function (xhr, status, error) {
                     console.log("Error: " + error);
@@ -107,7 +115,7 @@
             var userID = $("#userID2").val();
 
             $.ajax({
-                url: "http://localhost:5000/deleteuser",
+                url: "http://" + host + ":" + port + "/deleteuser",
                 type: "POST",
                 data: {
                     userID: userID,
@@ -116,7 +124,7 @@
                     console.log("User deleted successfully!");
                     alert("User deleted successfully!");
                     $("#deleteUserForm").hide();
-                    fetchData('http://localhost:5000/nutzer', '#table-container', ['Nutzer_id']);
+                    fetchData('http://' + host + ':' + port + '/nutzer', '#table-container', ['Nutzer_id']);
                 },
                 error: function (xhr, status, error) {
                     console.log("Error: " + error);
