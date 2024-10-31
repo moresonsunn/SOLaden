@@ -334,7 +334,7 @@ app.get('/database/next', (req, res) => {
 });
 
 app.get('/database/prev', (req, res) => {
-    if (currentPage > 1) {
+    if (currentPage < 1) {
         currentPage--;
     }
     res.redirect('/database');
